@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Motive8</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="facebook_app_id">1732075833676502</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+</resources>
