@@ -47,5 +47,16 @@
         android:textSize="20dp"
         android:id="@+id/settings" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:background="@drawable/mybutton"
+        android:padding="10dp"
+        android:text="Company list"
+        android:layout_centerInParent="true"
+        android:textSize="20dp"
+        android:id="@+id/company_list" />
+
 
 </LinearLayout>

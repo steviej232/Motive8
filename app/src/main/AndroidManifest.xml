@@ -3,11 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="sjohns70.motive8">
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -48,6 +44,9 @@
         <activity
             android:name=".MainActivity"
             android:label="MainActivity"/>
+        <activity
+            android:name=".CompanyListActivity" />
+
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"

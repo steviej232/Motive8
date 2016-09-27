@@ -20,6 +20,7 @@ public class HomeScreen extends AppCompatActivity {
     public LoginButton loginButton;
     public CallbackManager callbackManager;
     public Button settings;
+    public Button c_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,14 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(HomeScreen.this, MapsActivity.class);
+                startActivity(myIntent);
+            }
+        });
+        c_list = (Button)findViewById(R.id.company_list);
+        c_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(HomeScreen.this, CompanyListActivity.class);
                 startActivity(myIntent);
             }
         });

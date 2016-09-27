@@ -1,7 +1,6 @@
 package sjohns70.motive8;
 
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
@@ -46,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         setupDrawer();
         // Create the text view to show the level number.
         current_pay = (TextView) findViewById(R.id.current_pay);
-        Typeface font = Typeface.createFromAsset(getAssets(), "AlumFreePromotional.ttf");
-        current_pay.setTypeface(font);
+//        Typeface font = Typeface.createFromAsset(getAssets(), "AlumFreePromotional.ttf");
+//        current_pay.setTypeface(font);
         current_pay.setTextSize(96);
         current_pay.setTextColor(getResources().getColor(R.color.rainbow_green));
 
@@ -60,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
         text.setTextSize(42);
         text2.setTextSize(42);
         text3.setTextSize(42);
-        text.setTypeface(font);
-        text2.setTypeface(font);
-        text3.setTypeface(font);
+//        text.setTypeface(font);
+//        text2.setTypeface(font);
+//        text3.setTypeface(font);
         m_handler = new Handler();
         m_handlerTask = new Runnable()
         {
