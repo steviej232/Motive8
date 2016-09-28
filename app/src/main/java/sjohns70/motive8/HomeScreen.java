@@ -21,6 +21,7 @@ public class HomeScreen extends AppCompatActivity {
     public CallbackManager callbackManager;
     public Button settings;
     public Button c_list;
+    public Button circle_fill;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,14 @@ public class HomeScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(HomeScreen.this, CompanyListActivity.class);
+                startActivity(myIntent);
+            }
+        });
+        circle_fill = (Button)findViewById(R.id.circle_fill);
+        circle_fill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(HomeScreen.this, CircleActivity.class);
                 startActivity(myIntent);
             }
         });

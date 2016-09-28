@@ -5,7 +5,14 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <com.example.circlefill.CircleFillView
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="32dp"
+        android:id="@+id/points_tv"
+        android:gravity="center"/>
+
+    <sjohns70.motive8.CircleFillView
         android:id="@+id/circleFillView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,11 +20,8 @@
         android:background="#ffffff"
         custom:fillColor="#6bcae2"
         custom:strokeColor="#75b0d0"
-        custom:strokeWidth="20"
-        custom:value="65" />
+        custom:strokeWidth="20" />
 
-    <SeekBar android:id="@+id/seekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
 
 </LinearLayout>
