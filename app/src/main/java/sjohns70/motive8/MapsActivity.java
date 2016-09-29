@@ -5,11 +5,11 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -123,13 +123,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         float zoomLevel = 14; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
         Circle circle = mMap.addCircle(new CircleOptions()
-                .center(new LatLng(39.2083859, -77.2653445))
+                .center(new LatLng(80.2796335, -120.6493349))
                 .radius(1000)
                 .strokeColor(Color.RED)
                 .fillColor(Color.BLUE));
         boolean in_circle = is_inside_circle(options,circle);
         if(in_circle) {
-            Intent myIntent = new Intent(MapsActivity.this, MainActivity.class);
+            Intent myIntent = new Intent(MapsActivity.this, CompanyListActivity.class);
             startActivity(myIntent);
         }
 
