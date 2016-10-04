@@ -45,6 +45,8 @@
 
         <activity
             android:name=".CompanyListActivity" />
+        <activity
+            android:name=".CompanyProfileActivity" />
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
