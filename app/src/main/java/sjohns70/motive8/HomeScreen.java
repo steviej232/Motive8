@@ -113,7 +113,7 @@ public class HomeScreen extends AppCompatActivity {
         final String PREF_VERSION_CODE_KEY = "version_code";
         final int DOESNT_EXIST = -1;
 
-        // Get current version code
+        // Get current version code (pulls from build.gradle file)
         int currentVersionCode = BuildConfig.VERSION_CODE;
 
         // Get saved version code from shared preferences
@@ -135,7 +135,7 @@ public class HomeScreen extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Upgraded", Toast.LENGTH_SHORT).show();
         }
         else {
-            // The user somehow reverted versions of the app
+            // Current app version code is < saved version code ?
             return;
         }
 
