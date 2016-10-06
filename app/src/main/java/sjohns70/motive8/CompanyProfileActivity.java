@@ -107,7 +107,6 @@ public class CompanyProfileActivity extends AppCompatActivity {
                         // Do nothing but close the dialog
                     }
                 });
-        // Remember, create doesn't show the dialog
         AlertDialog helpDialog = helpBuilder.create();
         helpDialog.show();
     }
