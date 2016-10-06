@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+
     <uses-sdk tools:overrideLibrary="com.google.android.gms.all"  />
 
     <application
@@ -26,9 +28,12 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
+            android:label="@string/title_activity_maps"
+            >
 
         </activity>
+        <activity
+            android:name=".TestActivity"  />
         <activity android:label="@string/app_name" android:name=".HomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

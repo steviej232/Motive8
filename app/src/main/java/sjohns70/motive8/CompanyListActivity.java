@@ -67,6 +67,9 @@ public class CompanyListActivity extends Activity{
 
             }
         });
+
+        HomeScreen hs = new HomeScreen();
+        hs.createBottomBar(this,savedInstanceState,CompanyListActivity.this);
     }
 }
 
