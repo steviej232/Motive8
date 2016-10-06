@@ -1,11 +1,14 @@
 package sjohns70.motive8;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -51,8 +54,6 @@ public class HomeScreen extends AppCompatActivity {
 
         checkFirstRun();
 
-        settings = (Button) findViewById(R.id.settings);
-        settings.setOnClickListener(new View.OnClickListener() {
         // Initialize Firebase Auth
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
@@ -76,7 +77,6 @@ public class HomeScreen extends AppCompatActivity {
 //            startActivity(myIntent);
 //        }
         createBottomBar(this,savedInstanceState,HomeScreen.this);
-
     }
 
 
