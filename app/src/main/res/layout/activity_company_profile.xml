@@ -7,38 +7,51 @@
     android:layout_height="match_parent"
     tools:context="sjohns70.motive8.CompanyProfileActivity">
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/imageView2"
-        android:layout_centerInParent="false"
-        android:layout_below="@+id/companyName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/companyName"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:textSize="30sp" />
-
-    <ListView
-        android:layout_height="200dp"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/rewardsList"/>
+        android:gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView2"
-        android:layout_alignEnd="@+id/companyName"
-        android:layout_marginTop="66dp"
-        android:id="@+id/businessDescription"
-        android:layout_alignStart="@+id/companyName" />
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/companyName"
+            android:layout_marginTop="12dp"
+            android:textSize="30sp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/imageView2"
+            android:layout_centerInParent="false"
+            android:layout_below="@+id/companyName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="31dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_below="@+id/imageView2"
+            android:layout_alignEnd="@+id/companyName"
+            android:layout_marginTop="66dp"
+            android:id="@+id/businessDescription"
+            android:layout_alignStart="@+id/companyName"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:gravity="center_horizontal" />
+
+        <ListView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/rewardsList"/>
+    </LinearLayout>
+
 </RelativeLayout>
