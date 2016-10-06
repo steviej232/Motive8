@@ -1,5 +1,6 @@
 package sjohns70.motive8;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         mActivityTitle = getTitle().toString();
         setupDrawer();
+
         // Create the text view to show the level number.
         current_pay = (TextView) findViewById(R.id.current_pay);
 //        Typeface font = Typeface.createFromAsset(getAssets(), "AlumFreePromotional.ttf");
@@ -152,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -176,6 +177,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 }

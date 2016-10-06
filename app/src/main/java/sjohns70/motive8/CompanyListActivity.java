@@ -5,6 +5,8 @@ package sjohns70.motive8;
  */
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -61,9 +63,11 @@ public class CompanyListActivity extends Activity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // TODO Auto-generated method stub
-                String Slecteditem= itemname[+position];
-                Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(CompanyListActivity.this, CompanyProfileActivity.class);
+                System.out.println(parent.getItemAtPosition(position).toString());
+                myIntent.putExtra("companyName", parent.getItemAtPosition(position).toString());
+                myIntent.putExtra("position", position);
+                startActivity(myIntent);
 
             }
         });

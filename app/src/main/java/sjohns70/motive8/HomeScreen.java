@@ -1,13 +1,11 @@
 package sjohns70.motive8;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -50,6 +48,11 @@ public class HomeScreen extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.home_screen);
         initFacebook();
+
+        checkFirstRun();
+
+        settings = (Button) findViewById(R.id.settings);
+        settings.setOnClickListener(new View.OnClickListener() {
         // Initialize Firebase Auth
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
@@ -113,7 +116,6 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-
     public void initFacebook(){
         AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
@@ -135,7 +137,7 @@ public class HomeScreen extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Error logging in",Toast.LENGTH_SHORT).show();
             }
         });
-
+        loginButton.setReadPermissions("user_friends");
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -182,4 +184,43 @@ public class HomeScreen extends AppCompatActivity {
                 });
     }
 
+    /**
+     * This method uses shared preferences to save the current app version code. It will check if
+     * this startup of the app is the first launch after installation, first launch after updating,
+     * or just a normal run.
+     */
+    private void checkFirstRun() {
+        final String PREFS_NAME = "Motive8PrefsFile";
+        final String PREF_VERSION_CODE_KEY = "version_code";
+        final int DOESNT_EXIST = -1;
+
+        // Get current version code (pulls from build.gradle file)
+        int currentVersionCode = BuildConfig.VERSION_CODE;
+
+        // Get saved version code from shared preferences
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+        // Compare current and saved version codes to determine run type
+        if (currentVersionCode == savedVersionCode) {
+            // Normal run
+            Toast.makeText(getApplicationContext(), "Normal run", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if (savedVersionCode == DOESNT_EXIST) {
+            // First run
+            Toast.makeText(getApplicationContext(), "First run", Toast.LENGTH_SHORT).show();
+        }
+        else if (currentVersionCode > savedVersionCode) {
+            // This is an upgrade
+            Toast.makeText(getApplicationContext(), "Upgraded", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            // Current app version code is < saved version code ?
+            return;
+        }
+
+        // Update shared preferences with current version code
+        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
+    }
 }

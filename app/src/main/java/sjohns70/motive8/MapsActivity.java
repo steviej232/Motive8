@@ -132,7 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .fillColor(Color.BLUE));
         boolean in_circle = is_inside_circle(options,circle);
         if(in_circle) {
-            Intent myIntent = new Intent(MapsActivity.this, CompanyListActivity.class);
+            Intent myIntent = new Intent(MapsActivity.this, HomeScreen.class);
             startActivity(myIntent);
         }
 
