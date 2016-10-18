@@ -1,16 +1,11 @@
 package sjohns70.motive8;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -31,14 +26,6 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnMenuTabSelectedListener;
-
-import static sjohns70.motive8.R.styleable.CoordinatorLayout;
-
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class HomeScreen extends AppCompatActivity {
     public LoginButton loginButton;
@@ -177,13 +164,13 @@ public class HomeScreen extends AppCompatActivity {
         if (currentVersionCode == savedVersionCode) {
             // Normal run
             //Toast.makeText(getApplicationContext(), "Normal run", Toast.LENGTH_SHORT).show();
-            runTutorial();
+            //runTutorial();
             return;
         }
         else if (savedVersionCode == DOESNT_EXIST) {
             // First run
             //Toast.makeText(getApplicationContext(), "First run", Toast.LENGTH_SHORT).show();
-            runTutorial();
+            //runTutorial();
         }
         else if (currentVersionCode > savedVersionCode) {
             // This is an upgrade
@@ -196,66 +183,66 @@ public class HomeScreen extends AppCompatActivity {
 
     /* This method runs an app tutorial using showcaseview to instruct the user
      * on how to use the app */
-    private void runTutorial() {
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this);
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(250); // quarter second between each showcase view
-        sequence.setConfig(config);
-
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.home_item))
-                        .setTitleText("Home Button")
-                        .setTitleTextColor(ContextCompat.getColor(this, R.color.white))
-                        .setDismissText("GOT IT")
-                        .setDismissTextColor(ContextCompat.getColor(this, R.color.white))
-                        .setContentText("This is the home button")
-                        .setContentTextColor(ContextCompat.getColor(this, R.color.white))
-                        .setMaskColour(Color.parseColor("#F2FFA500"))
-                        .withRectangleShape()
-                        .build()
-        );
-
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.coupons_item))
-                        .setTitleText("Coupons Button")
-                        .setDismissText("GOT IT")
-                        .setContentText("This is the coupons button")
-                        .withRectangleShape()
-                        .build()
-        );
-
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.leaderboard_item))
-                        .setTitleText("Leaderboard Button")
-                        .setDismissText("GOT IT")
-                        .setContentText("This is the leaderboard button")
-                        .withRectangleShape()
-                        .build()
-        );
-
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.more_item))
-                        .setTitleText("More Button")
-                        .setDismissText("GOT IT")
-                        .setContentText("This is the more button")
-                        .withRectangleShape()
-                        .build()
-        );
-
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.login_button))
-                        .setTitleText("Login Button")
-                        .setDismissText("GOT IT")
-                        .setContentText("Log in using Facebook!")
-                        .withRectangleShape()
-                        .build()
-        );
-
-        sequence.start();
-    }
+//    private void runTutorial() {
+//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this);
+//        ShowcaseConfig config = new ShowcaseConfig();
+//        config.setDelay(250); // quarter second between each showcase view
+//        sequence.setConfig(config);
+//
+//        sequence.addSequenceItem (
+//                new MaterialShowcaseView.Builder(this)
+//                        .setTarget(findViewById(R.id.home_item))
+//                        .setTitleText("Home Button")
+//                        .setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+//                        .setDismissText("GOT IT")
+//                        .setDismissTextColor(ContextCompat.getColor(this, R.color.white))
+//                        .setContentText("This is the home button")
+//                        .setContentTextColor(ContextCompat.getColor(this, R.color.white))
+//                        .setMaskColour(Color.parseColor("#F2FFA500"))
+//                        .withRectangleShape()
+//                        .build()
+//        );
+//
+//        sequence.addSequenceItem (
+//                new MaterialShowcaseView.Builder(this)
+//                        .setTarget(findViewById(R.id.coupons_item))
+//                        .setTitleText("Coupons Button")
+//                        .setDismissText("GOT IT")
+//                        .setContentText("This is the coupons button")
+//                        .withRectangleShape()
+//                        .build()
+//        );
+//
+//        sequence.addSequenceItem (
+//                new MaterialShowcaseView.Builder(this)
+//                        .setTarget(findViewById(R.id.leaderboard_item))
+//                        .setTitleText("Leaderboard Button")
+//                        .setDismissText("GOT IT")
+//                        .setContentText("This is the leaderboard button")
+//                        .withRectangleShape()
+//                        .build()
+//        );
+//
+//        sequence.addSequenceItem (
+//                new MaterialShowcaseView.Builder(this)
+//                        .setTarget(findViewById(R.id.more_item))
+//                        .setTitleText("More Button")
+//                        .setDismissText("GOT IT")
+//                        .setContentText("This is the more button")
+//                        .withRectangleShape()
+//                        .build()
+//        );
+//
+//        sequence.addSequenceItem (
+//                new MaterialShowcaseView.Builder(this)
+//                        .setTarget(findViewById(R.id.login_button))
+//                        .setTitleText("Login Button")
+//                        .setDismissText("GOT IT")
+//                        .setContentText("Log in using Facebook!")
+//                        .withRectangleShape()
+//                        .build()
+//        );
+//
+//        sequence.start();
+//    }
 }

@@ -5,12 +5,10 @@ package sjohns70.motive8;
  */
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.google.firebase.FirebaseApp;
@@ -105,7 +103,7 @@ public class CompanyListActivity extends Activity{
         });
 
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
-        bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this,2);
+        bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this,2);
     }
 }
 
