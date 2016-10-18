@@ -5,14 +5,14 @@ package sjohns70.motive8;
  */
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.roughike.bottombar.BottomBar;
 
 
 public class CompanyListActivity extends Activity{
@@ -49,10 +49,14 @@ public class CompanyListActivity extends Activity{
             R.drawable.starbucks,
             R.drawable.target,
     };
+    BottomBar bottomBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.company_list);
+        Intent intent = getIntent();
+        int curTab=0;
+        intent.getIntExtra("currentTab",curTab);
 
         CustomListAdapter adapter=new CustomListAdapter(this, itemname, imgid);
         list=(ListView)findViewById(R.id.list);
@@ -71,9 +75,11 @@ public class CompanyListActivity extends Activity{
 
             }
         });
+        BottomBarActivity bottomBarActivity = new BottomBarActivity();
+        bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this,2);
 
-        HomeScreen hs = new HomeScreen();
-        hs.createBottomBar(this,savedInstanceState,CompanyListActivity.this);
+
     }
+
 }
 

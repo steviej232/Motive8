@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.roughike.bottombar.BottomBar;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -41,10 +42,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String TAG = MapsActivity.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private BottomBar bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+
         setContentView(R.layout.activity_maps);
        checkPlayServices();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -64,8 +68,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setInterval(60 * 1000)        // 60 seconds, in milliseconds
                 .setFastestInterval(10 * 1000); // 10 second, in milliseconds
 
-        HomeScreen hs = new HomeScreen();
-        hs.createBottomBar(this,savedInstanceState,MapsActivity.this);
+        Bundle receiveBundle = this.getIntent().getExtras();
+        BottomBarActivity bottomBarActivity = new BottomBarActivity();
+        bottomBar = bottomBarActivity.createBottomBar(this,receiveBundle,MapsActivity.this,1);
 
     }
 
@@ -126,13 +131,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         float zoomLevel = 14; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
         Circle circle = mMap.addCircle(new CircleOptions()
-                .center(new LatLng(80.2796335, -120.6493349))
-                .radius(1000)
+                .center(new LatLng(35.3004795, -120.6623855))
+                .radius(10000)
                 .strokeColor(Color.RED)
                 .fillColor(Color.BLUE));
         boolean in_circle = is_inside_circle(options,circle);
         if(in_circle) {
-            Intent myIntent = new Intent(MapsActivity.this, HomeScreen.class);
+            Intent myIntent = new Intent(MapsActivity.this, CircleActivity.class);
             startActivity(myIntent);
         }
 
