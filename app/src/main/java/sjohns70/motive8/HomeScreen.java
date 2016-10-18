@@ -1,7 +1,10 @@
 package sjohns70.motive8;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,10 +22,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.Games;
-import com.google.android.gms.games.Player;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -32,44 +31,32 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabSelectedListener;
 
+import static sjohns70.motive8.R.styleable.CoordinatorLayout;
 
-public class HomeScreen extends AppCompatActivity implements View.OnClickListener,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+
+public class HomeScreen extends AppCompatActivity {
     public LoginButton loginButton;
     public CallbackManager callbackManager;
     public Button settings;
     public Button c_list;
     public Button circle_fill;
-    private CoordinatorLayout coordinatorLayout;
+    private android.support.design.widget.CoordinatorLayout coordinatorLayout;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private String TAG ="sjohns70";
-    private GoogleApiClient mGoogleApiClient;
-    // Are we currently resolving a connection failure?
-    private boolean mResolvingConnectionFailure = false;
-
-    // Has the user clicked the sign-in button?
-    private boolean mSignInClicked = false;
-
-    // Automatically start the sign-in flow when the Activity starts
-    private boolean mAutoStartSignInFlow = true;
-
-    // request codes we use when invoking an external activity
-    private static final int RC_RESOLVE = 5000;
-    private static final int RC_UNUSED = 5001;
-    private static final int RC_SIGN_IN = 9001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.home_screen);
-        Intent intent = getIntent();
-        int curTab=0;
-        intent.getIntExtra("currentTab",curTab);
         initFacebook();
 
         checkFirstRun();
@@ -93,7 +80,7 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         };
 
 //        if(isLoggedIn()){
-//            Intent myIntent = new Intent(HomeScreen.this, BottomBarActivity.class);
+//            Intent myIntent = new Intent(HomeScreen.this, MapsActivity.class);
 //            startActivity(myIntent);
 //        }
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
@@ -189,78 +176,86 @@ public class HomeScreen extends AppCompatActivity implements View.OnClickListene
         // Compare current and saved version codes to determine run type
         if (currentVersionCode == savedVersionCode) {
             // Normal run
-            Toast.makeText(getApplicationContext(), "Normal run", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Normal run", Toast.LENGTH_SHORT).show();
+            runTutorial();
             return;
         }
         else if (savedVersionCode == DOESNT_EXIST) {
             // First run
-            Toast.makeText(getApplicationContext(), "First run", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "First run", Toast.LENGTH_SHORT).show();
+            runTutorial();
         }
         else if (currentVersionCode > savedVersionCode) {
             // This is an upgrade
-            Toast.makeText(getApplicationContext(), "Upgraded", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            // Current app version code is < saved version code ?
-            return;
+            //Toast.makeText(getApplicationContext(), "Upgraded", Toast.LENGTH_SHORT).show();
         }
 
         // Update shared preferences with current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
-    protected boolean isSignedIn() {
-        return (mGoogleApiClient != null && mGoogleApiClient.isConnected());
+    /* This method runs an app tutorial using showcaseview to instruct the user
+     * on how to use the app */
+    private void runTutorial() {
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this);
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(250); // quarter second between each showcase view
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(findViewById(R.id.home_item))
+                        .setTitleText("Home Button")
+                        .setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+                        .setDismissText("GOT IT")
+                        .setDismissTextColor(ContextCompat.getColor(this, R.color.white))
+                        .setContentText("This is the home button")
+                        .setContentTextColor(ContextCompat.getColor(this, R.color.white))
+                        .setMaskColour(Color.parseColor("#F2FFA500"))
+                        .withRectangleShape()
+                        .build()
+        );
+
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(findViewById(R.id.coupons_item))
+                        .setTitleText("Coupons Button")
+                        .setDismissText("GOT IT")
+                        .setContentText("This is the coupons button")
+                        .withRectangleShape()
+                        .build()
+        );
+
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(findViewById(R.id.leaderboard_item))
+                        .setTitleText("Leaderboard Button")
+                        .setDismissText("GOT IT")
+                        .setContentText("This is the leaderboard button")
+                        .withRectangleShape()
+                        .build()
+        );
+
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(findViewById(R.id.more_item))
+                        .setTitleText("More Button")
+                        .setDismissText("GOT IT")
+                        .setContentText("This is the more button")
+                        .withRectangleShape()
+                        .build()
+        );
+
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(findViewById(R.id.login_button))
+                        .setTitleText("Login Button")
+                        .setDismissText("GOT IT")
+                        .setContentText("Log in using Facebook!")
+                        .withRectangleShape()
+                        .build()
+        );
+
+        sequence.start();
     }
-
-    @Override
-    public void onClick(View view) {
-
-    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        Log.d(TAG, "onConnected(): connected to Google APIs");
-
-        // Set the greeting appropriately on main menu
-        Player p = Games.Players.getCurrentPlayer(mGoogleApiClient);
-        String displayName;
-        if (p == null) {
-            Log.w(TAG, "mGamesClient.getCurrentPlayer() is NULL!");
-            displayName = "???";
-        } else {
-            displayName = p.getDisplayName();
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Log.d(TAG, "onConnectionSuspended(): attempting to connect");
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed(): attempting to resolve");
-        if (mResolvingConnectionFailure) {
-            Log.d(TAG, "onConnectionFailed(): already resolving");
-            return;
-        }
-
-        if (mSignInClicked || mAutoStartSignInFlow) {
-            mAutoStartSignInFlow = false;
-            mSignInClicked = false;
-            mResolvingConnectionFailure = true;
-        }
-    }
-
-//    @Override
-//    public void onSignInFailed() {
-//        Toast.makeText(getApplicationContext(),"signed in failed",Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @Override
-//    public void onSignInSucceeded() {
-//        Toast.makeText(getApplicationContext(),"signed in",Toast.LENGTH_SHORT).show();
-//    }
 }

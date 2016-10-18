@@ -5,6 +5,7 @@ package sjohns70.motive8;
  */
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +13,19 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.roughike.bottombar.BottomBar;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 public class CompanyListActivity extends Activity{
+    private CustomListAdapter adapter;
+    private ArrayList<BusinessData> businesses;
 
     ListView list;
     String[] itemname ={
@@ -49,37 +59,53 @@ public class CompanyListActivity extends Activity{
             R.drawable.starbucks,
             R.drawable.target,
     };
-    BottomBar bottomBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ListView list;
+        DatabaseReference myRef;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.company_list);
-        Intent intent = getIntent();
-        int curTab=0;
-        intent.getIntExtra("currentTab",curTab);
 
-        CustomListAdapter adapter=new CustomListAdapter(this, itemname, imgid);
-        list=(ListView)findViewById(R.id.list);
-        list.setAdapter(adapter);
+        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("BUSINESSES");
+        myRef.keepSynced(true);
 
-        list.setOnItemClickListener(new OnItemClickListener() {
+        businesses = new ArrayList<>();
 
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                Intent myIntent = new Intent(CompanyListActivity.this, CompanyProfileActivity.class);
-                System.out.println(parent.getItemAtPosition(position).toString());
-                myIntent.putExtra("companyName", parent.getItemAtPosition(position).toString());
-                myIntent.putExtra("position", position);
-                startActivity(myIntent);
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for ( DataSnapshot data : dataSnapshot.getChildren()) {
+                    BusinessData bus = data.getValue(BusinessData.class);
+                    businesses.add(bus);
+                }
+                adapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Failed");
             }
         });
+
+        adapter = new CustomListAdapter(businesses);
+        list = (ListView) findViewById(R.id.list);
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(CompanyListActivity.this, CompanyProfileActivity.class);
+                Bundle bun = new Bundle();
+                bun.putSerializable("Business", businesses.get(position));
+                myIntent.putExtras(bun);
+                parent.getContext().startActivity(myIntent);
+            }
+        });
+
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this,2);
-
-
     }
-
 }
 
