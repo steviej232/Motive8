@@ -7,15 +7,17 @@ package sjohns70.motive8;
 public class RewardsData {
 
     private String id;
-    private String businessId;
-    private String rewardsName;
+    private String business_id;
+    private String name;
     private String description;
     private int value;
 
+    public RewardsData(){};
+
     public RewardsData(String id, String businessId, String rewardsName, String description, int value){
         id = id;
-        businessId = businessId;
-        rewardsName = rewardsName;
+        business_id = businessId;
+        name = rewardsName;
         description = description;
         value = value;
     }
@@ -27,21 +29,6 @@ public class RewardsData {
         this.id = id;
     }
 
-    public String getBusinessId() {
-        return businessId;
-    }
-
-    public void setBusinessId(String businessId) {
-        this.businessId = businessId;
-    }
-
-    public String getRewardsName() {
-        return rewardsName;
-    }
-
-    public void setRewardsName(String rewardsName) {
-        this.rewardsName = rewardsName;
-    }
 
     public int getValue() {
         return value;
@@ -60,5 +47,19 @@ public class RewardsData {
     }
 
 
+    public String getBusiness_id() {
+        return business_id;
+    }
 
+    public void setBusiness_id(String business_id) {
+        this.business_id = business_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

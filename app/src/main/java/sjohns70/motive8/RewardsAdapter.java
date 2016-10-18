@@ -1,11 +1,5 @@
 package sjohns70.motive8;
 
-/**
- * Created by Steven on 9/14/2016.
- */
-
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,24 +8,28 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CustomListAdapter extends BaseAdapter {
+/**
+ * Created by KendallGassner on 10/13/16.
+ */
 
-    private final ArrayList<BusinessData> businesses;
+public class RewardsAdapter extends BaseAdapter{
 
-    public CustomListAdapter(ArrayList<BusinessData> itemName) { this.businesses = itemName; }
+    private final ArrayList<RewardsData> rewards;
+
+    public RewardsAdapter(ArrayList<RewardsData> itemName) { this.rewards = itemName; }
 
     @Override
-    public int getCount(){ return businesses.size(); }
+    public int getCount(){ return rewards.size(); }
 
     @Override
-    public BusinessData getItem(int position) { return businesses.get(position); }
+    public RewardsData getItem(int position) { return rewards.get(position); }
 
     @Override
     public long getItemId(int position) { return 0; }
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        final BusinessData bus = getItem(position);
+        final RewardsData reward = getItem(position);
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -41,11 +39,11 @@ public class CustomListAdapter extends BaseAdapter {
         TextView companyName = (TextView) convertView.findViewById(R.id.name);
         TextView description = (TextView) convertView.findViewById(R.id.description);
 
-        companyName.setText(bus.getCompany_name());
-        description.setText(bus.getDescription());
+        companyName.setText(reward.getName());
+        description.setText(reward.getDescription());
 
 
-        return convertView;
+            return convertView;
 
-    };
+        };
 }

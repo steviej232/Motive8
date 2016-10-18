@@ -1,30 +1,32 @@
 package sjohns70.motive8;
 
-import android.media.Image;
+
+import java.io.Serializable;
 
 /**
  * Created by KendallGassner on 10/6/16.
  */
 
-public class BusinessData {
+public class BusinessData implements Serializable {
     private String description;
-    private String companyName;
-    private Image logo;
+    private String company_name;
+    private String logo;
     private String id;
 
-    public BusinessData(String descript, String name, Image image, String uniqueId){
+    public BusinessData() {}
+
+    public BusinessData(String descript, String name, String image, String uniqueId){
         description = descript;
-        companyName = name;
+        company_name = name;
         logo = image;
         id = uniqueId;
 
     }
-
-    public Image getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(Image logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 
@@ -37,21 +39,20 @@ public class BusinessData {
         this.id = id;
     }
 
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String name) {
-        this.companyName = name;
-    }
-
-
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String bio) {
-        this.description = bio;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public String getCompany_name() {
+        return company_name;
+    }
+
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
+    }
+
 }
