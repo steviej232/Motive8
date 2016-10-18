@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,8 +31,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabSelectedListener;
 
-import static sjohns70.motive8.R.styleable.CoordinatorLayout;
-
 
 public class HomeScreen extends AppCompatActivity {
     public LoginButton loginButton;
@@ -55,10 +52,10 @@ public class HomeScreen extends AppCompatActivity {
         initFacebook();
 
         checkFirstRun();
-
-        // Initialize Firebase Auth
+        // Initialize Firebase Aut
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
