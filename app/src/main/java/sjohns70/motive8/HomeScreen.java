@@ -28,6 +28,7 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.roughike.bottombar.BottomBar;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -44,6 +45,7 @@ public class HomeScreen extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private String TAG ="sjohns70";
+    private BottomBar bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class HomeScreen extends AppCompatActivity {
 //            startActivity(myIntent);
 //        }
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
-        bottomBarActivity.createBottomBar(this,savedInstanceState,HomeScreen.this,0);
+        bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,HomeScreen.this,0);
         checkFirstRun();
     }
 
@@ -196,7 +198,7 @@ public class HomeScreen extends AppCompatActivity {
 
         sequence.addSequenceItem (
                 new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.home_item))
+                        .setTarget(bottomBar.getBar())
                         .setTitleText("Home Button")
                         .setTitleTextColor(ContextCompat.getColor(this, R.color.white))
                         .setDismissText("GOT IT")
@@ -210,7 +212,7 @@ public class HomeScreen extends AppCompatActivity {
 
         sequence.addSequenceItem (
                 new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.coupons_item))
+                        .setTarget(bottomBar.getBar())
                         .setTitleText("Coupons Button")
                         .setDismissText("GOT IT")
                         .setContentText("This is the coupons button")
@@ -220,7 +222,7 @@ public class HomeScreen extends AppCompatActivity {
 
         sequence.addSequenceItem (
                 new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.leaderboard_item))
+                        .setTarget(bottomBar.getBar())
                         .setTitleText("Leaderboard Button")
                         .setDismissText("GOT IT")
                         .setContentText("This is the leaderboard button")
@@ -230,7 +232,7 @@ public class HomeScreen extends AppCompatActivity {
 
         sequence.addSequenceItem (
                 new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.more_item))
+                        .setTarget(bottomBar.getBar())
                         .setTitleText("More Button")
                         .setDismissText("GOT IT")
                         .setContentText("This is the more button")
