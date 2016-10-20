@@ -15,8 +15,8 @@
         android:icon="@drawable/ic_favorite_white_24dp"
         android:title="Leaderboard"
         />
-    <!--<item-->
-        <!--android:id="@+id/more_item"-->
-        <!--android:icon="@drawable/ic_favorite_white_24dp"-->
-        <!--android:title="More" />-->
+    <item
+        android:id="@+id/more_item"
+        android:icon="@drawable/ic_favorite_white_24dp"
+        android:title="More" />
 </menu>
