@@ -31,11 +31,6 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
     // Automatically start the sign-in flow when the Activity starts
     private boolean mAutoStartSignInFlow = true;
 
-    // request codes we use when invoking an external activity
-    private static final int RC_RESOLVE = 5000;
-    private static final int RC_UNUSED = 5001;
-    private static final int RC_SIGN_IN = 9001;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -115,11 +115,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
         else {
-            handleNewLocation(location);
+            try {
+                handleNewLocation(location);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void handleNewLocation(Location location) {
+    private void handleNewLocation(Location location) throws InterruptedException {
         Log.d(TAG, location.toString());
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
@@ -196,6 +200,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        handleNewLocation(location);
+        try {
+            handleNewLocation(location);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
