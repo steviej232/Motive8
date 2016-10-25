@@ -21,10 +21,12 @@ public class BottomBarActivity {
 
     public BottomBar createBottomBar(Activity activity, final Bundle savedInstanceState, final Context className,int tab_position){
         bottomBar = BottomBar.attach(activity, savedInstanceState);
-        bottomBar.setItems(new BottomBarTab(R.drawable.ic_home_black_24dp, "Home"),
+        bottomBar.setItems(
+                new BottomBarTab(R.drawable.ic_home_black_24dp, "Home"),
                 new BottomBarTab(R.drawable.ic_nearby, "Location"),
                 new BottomBarTab(R.drawable.ic_card_giftcard_black_24dp, "Coupons"),
-                new BottomBarTab(R.drawable.ic_library_add_black_24dp, "More"));
+                new BottomBarTab(R.drawable.ic_library_add_black_24dp, "More")
+        );
         bottomBar.setDefaultTabPosition(tab_position);
         bottomBar.setOnItemSelectedListener(new OnTabSelectedListener() {
             @Override
@@ -37,6 +39,7 @@ public class BottomBarActivity {
                         break;
                     case 1:
                         myIntent = new Intent(className, MapsActivity.class);
+                        //myIntent = new Intent(className, CircleActivity.class);
                         className.startActivity(myIntent);
                         break;
                     case 2:
@@ -54,6 +57,7 @@ public class BottomBarActivity {
         bottomBar.mapColorForTab(1, "#00796B");
         bottomBar.mapColorForTab(2, "#7B1FA2");
         bottomBar.mapColorForTab(3, "#FF5252");
+
         // Make a Badge for the first tab, with red background color and a value of "4".
         BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(1, "#E91E63", 4);
 
@@ -71,11 +75,11 @@ public class BottomBarActivity {
         unreadMessages.setAutoShowAfterUnSelection(true);
 
 
-// Set the color for the active tab. Ignored on mobile when there are more than three tabs.
+        // Set the color for the active tab. Ignored on mobile when there are more than three tabs.
         bottomBar.setActiveTabColor("#C2185B");
 
 
-// Use custom text appearance in tab titles.
+        // Use custom text appearance in tab titles.
         bottomBar.setTextAppearance(R.style.BB_BottomBarItem_Fixed);
 
         return bottomBar;
