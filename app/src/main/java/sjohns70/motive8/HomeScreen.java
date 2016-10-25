@@ -47,7 +47,7 @@ public class HomeScreen extends AppCompatActivity  {
 
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,HomeScreen.this,0);
-        //checkFirstRun();
+        checkFirstRun();
     }
 
 
@@ -142,15 +142,6 @@ public class HomeScreen extends AppCompatActivity  {
                         .build()
         );
 
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(findViewById(R.id.login_button))
-                        .setTitleText("Login Button")
-                        .setDismissText("GOT IT")
-                        .setContentText("Log in using Facebook!")
-                        .withRectangleShape()
-                        .build()
-        );
 
         sequence.start();
     }
