@@ -25,6 +25,38 @@ public class CompanyListActivity extends Activity{
     private CustomListAdapter adapter;
     private ArrayList<BusinessData> businesses;
 
+    ListView list;
+    String[] itemname ={
+            "Adidas",
+            "Amazon",
+            "Apple",
+            "Baskin Robbins",
+            "Dell",
+            "Money",
+            "Dominos",
+            "Intel",
+            "Jamba Juice",
+            "Nasa",
+            "Pepsi",
+            "Starbucks",
+            "Target"
+    };
+
+    Integer[] imgid={
+            R.drawable.adidas,
+            R.drawable.amazon,
+            R.drawable.apple,
+            R.drawable.baskin_robbins,
+            R.drawable.dell,
+            R.drawable.dollar,
+            R.drawable.dominos,
+            R.drawable.intel,
+            R.drawable.jamba_juice,
+            R.drawable.nasa,
+            R.drawable.pepsi,
+            R.drawable.starbucks,
+            R.drawable.target,
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ListView list;
@@ -70,10 +102,8 @@ public class CompanyListActivity extends Activity{
             }
         });
 
-
-
-        HomeScreen hs = new HomeScreen();
-        hs.createBottomBar(this,savedInstanceState,CompanyListActivity.this);
+        BottomBarActivity bottomBarActivity = new BottomBarActivity();
+        bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this,2);
     }
 }
 

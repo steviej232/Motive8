@@ -6,6 +6,7 @@ package sjohns70.motive8;
  */
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.roughike.bottombar.BottomBar;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,12 +31,16 @@ public class CircleActivity extends Activity
     private int points;
     private UserData userData;
     private DatabaseReference myRef;
+    private BottomBar bottomBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.circle_activity);
+        Intent intent = getIntent();
+        int curTab=0;
+        intent.getIntExtra("currentTab",curTab);
 
         circleFill = (CircleFillView) findViewById(R.id.circleFillView);
         tv_points = (TextView)findViewById(R.id.points_tv);
@@ -44,8 +50,8 @@ public class CircleActivity extends Activity
         userData = new UserData();
 
         startTimer();
-        HomeScreen hs = new HomeScreen();
-        hs.createBottomBar(this,savedInstanceState,CircleActivity.this);
+        BottomBarActivity bottomBarActivity = new BottomBarActivity();
+        bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,CircleActivity.this,1);
     }
 
     void startTimer(){

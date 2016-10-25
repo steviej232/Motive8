@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +17,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnMenuTabSelectedListener;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class HomeScreen extends AppCompatActivity  {
         public Button settings;
@@ -23,67 +28,52 @@ public class HomeScreen extends AppCompatActivity  {
         public Button circle_fill;
         private android.support.design.widget.CoordinatorLayout coordinatorLayout;
         private String TAG ="sjohns70";
+        private BottomBar bottomBar;
 
-        @Override
+public class HomeScreen extends AppCompatActivity {
+    public LoginButton loginButton;
+    public CallbackManager callbackManager;
+    public Button settings;
+    public Button c_list;
+    public Button circle_fill;
+    private CoordinaterLayout coordinatorLayout;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private String TAG ="sjohns70";
+
+    @Override
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
 
-        checkFirstRun();
             FirebaseApp.initializeApp(getApplicationContext());
+        checkFirstRun();
 
-
-            createBottomBar(this,savedInstanceState,HomeScreen.this);
-
-             Button signOut = (Button) findViewById(R.id.sign_out);
-            signOut.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent logIn = new Intent(HomeScreen.this, Login.class);
-                    startActivity(logIn);
-                }
-            });
-
-         }
-
-
-
-    public void createBottomBar(Activity activity, Bundle savedInstanceState, final Context className){
-        BottomBar bottomBar = BottomBar.attach(activity, savedInstanceState);
-        bottomBar.setItemsFromMenu(R.menu.four_buttons_menu, new OnMenuTabSelectedListener() {
+        // Initialize Firebase Auth
+        FirebaseApp.initializeApp(getApplicationContext());
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onMenuItemSelected(int itemId) {
-                switch (itemId) {
-                    case R.id.home_item:
-                        Intent myIntent = new Intent(className, HomeScreen.class);
-                        className.startActivity(myIntent);
-                        break;
-                    case R.id.coupons_item:
-                        Intent myIntent4 = new Intent(className, MapsActivity.class);
-                        className.startActivity(myIntent4);
-                        break;
-                    case R.id.leaderboard_item:
-                        Intent myIntent3 = new Intent(className,CompanyListActivity.class);
-                        className.startActivity(myIntent3);
-                        break;
-                    case R.id.more_item:
-                        Intent myIntent2 = new Intent(className, CircleActivity.class);
-                        className.startActivity(myIntent2);
-                        break;
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
+                // ...
             }
-        });
-// Set the color for the active tab. Ignored on mobile when there are more than three tabs.
-        bottomBar.setActiveTabColor("#C2185B");
+        };
 
-// Use the dark theme. Ignored on mobile when there are more than three tabs.
-        bottomBar.useDarkTheme(true);
 
-// Use custom text appearance in tab titles.
-        bottomBar.setTextAppearance(R.style.BB_BottomBarItem_Fixed);
-
+        BottomBarActivity bottomBarActivity = new BottomBarActivity();
+        bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,HomeScreen.this,0);
+        checkFirstRun();
     }
+
 
 
     /**
@@ -106,27 +96,86 @@ public class HomeScreen extends AppCompatActivity  {
         // Compare current and saved version codes to determine run type
         if (currentVersionCode == savedVersionCode) {
             // Normal run
-            Toast.makeText(getApplicationContext(), "Normal run", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "Normal run", Toast.LENGTH_SHORT).show();
+            runTutorial();
             return;
         }
         else if (savedVersionCode == DOESNT_EXIST) {
             // First run
-            Toast.makeText(getApplicationContext(), "First run", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "First run", Toast.LENGTH_SHORT).show();
+            runTutorial();
         }
         else if (currentVersionCode > savedVersionCode) {
             // This is an upgrade
-            Toast.makeText(getApplicationContext(), "Upgraded", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            // Current app version code is < saved version code ?
-            return;
+            //Toast.makeText(getApplicationContext(), "Upgraded", Toast.LENGTH_SHORT).show();
         }
 
         // Update shared preferences with current version code
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
+    /* This method runs an app tutorial using showcaseview to instruct the user
+     * on how to use the app */
+    private void runTutorial() {
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this);
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(250); // quarter second between each showcase view
+        sequence.setConfig(config);
 
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(bottomBar.getBar())
+                        .setTitleText("Home Button")
+                        .setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+                        .setDismissText("GOT IT")
+                        .setDismissTextColor(ContextCompat.getColor(this, R.color.white))
+                        .setContentText("This is the home button")
+                        .setContentTextColor(ContextCompat.getColor(this, R.color.white))
+                        .setMaskColour(Color.parseColor("#F2FFA500"))
+                        .withRectangleShape()
+                        .build()
+        );
 
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(bottomBar.getBar())
+                        .setTitleText("Coupons Button")
+                        .setDismissText("GOT IT")
+                        .setContentText("This is the coupons button")
+                        .withRectangleShape()
+                        .build()
+        );
 
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(bottomBar.getBar())
+                        .setTitleText("Leaderboard Button")
+                        .setDismissText("GOT IT")
+                        .setContentText("This is the leaderboard button")
+                        .withRectangleShape()
+                        .build()
+        );
+
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(bottomBar.getBar())
+                        .setTitleText("More Button")
+                        .setDismissText("GOT IT")
+                        .setContentText("This is the more button")
+                        .withRectangleShape()
+                        .build()
+        );
+
+        sequence.addSequenceItem (
+                new MaterialShowcaseView.Builder(this)
+                        .setTarget(findViewById(R.id.login_button))
+                        .setTitleText("Login Button")
+                        .setDismissText("GOT IT")
+                        .setContentText("Log in using Facebook!")
+                        .withRectangleShape()
+                        .build()
+        );
+
+        sequence.start();
+    }
 }
