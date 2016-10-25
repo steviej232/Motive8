@@ -13,9 +13,16 @@ public class UserData {
     public String email;
     public int points_earned;
     public int count_remainder;
+    public String password;
 
     public UserData() {
         // Default constructor required for calls to DataSnapshot.getValue(UserData.class)
+    }
+
+    public UserData(String email, String password) {
+        // Default constructor required for calls to DataSnapshot.getValue(UserData.class)
+        this.email = email;
+        this.password = password;
     }
 
     public UserData(String username, String email, int points_earned, int count_remainder) {
@@ -56,4 +63,13 @@ public class UserData {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }
