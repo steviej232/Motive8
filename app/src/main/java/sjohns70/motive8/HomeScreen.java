@@ -1,13 +1,16 @@
 package sjohns70.motive8;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.roughike.bottombar.BottomBar;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
@@ -31,9 +34,20 @@ public class HomeScreen extends AppCompatActivity  {
         FirebaseApp.initializeApp(getApplicationContext());
 
 
+        Button signOut = (Button) findViewById(R.id.sign_out);
+                    signOut.setOnClickListener(new View.OnClickListener() {
+                                                   @Override
+                                                   public void onClick(View v) {
+                                                       FirebaseAuth.getInstance().signOut();
+                                                       Intent logIn = new Intent(HomeScreen.this, Login.class);
+                                                       startActivity(logIn);
+                                                   }
+                                               });
+
+
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,HomeScreen.this,0);
-        checkFirstRun();
+        //checkFirstRun();
     }
 
 
