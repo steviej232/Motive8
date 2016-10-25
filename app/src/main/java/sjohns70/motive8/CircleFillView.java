@@ -151,7 +151,29 @@ public class CircleFillView extends View
     {
         super.onDraw(canvas);
 
-        canvas.drawPath(segment, fillPaint);
-        canvas.drawCircle(center.x, center.y, radius, strokePaint);
+        Paint heart_outline_paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        heart_outline_paint.setStrokeJoin(Paint.Join.MITER);
+        heart_outline_paint.setColor(Color.RED);
+        heart_outline_paint.setStrokeWidth(15);
+        heart_outline_paint.setStyle(Paint.Style.STROKE);
+        Path path = new Path();
+
+        float length = 100;
+        float x = canvas.getWidth()/2;
+        float y = canvas.getHeight()/2;
+
+        canvas.rotate(45, x, y);
+
+        path.moveTo(x, y);
+        path.lineTo(x-length, y);
+        path.arcTo(new RectF(x-length-(length/2), y-length, x-(length/2), y), 90, 180);
+        path.arcTo(new RectF(x-length, y-length-(length/2), x, y-(length/2)), 180, 180);
+        path.lineTo(x, y);
+        path.close();
+
+        canvas.drawPath(path, heart_outline_paint);
+
+        /*canvas.drawPath(segment, fillPaint);
+        canvas.drawCircle(center.x, center.y, radius, strokePaint);*/
     }
 }

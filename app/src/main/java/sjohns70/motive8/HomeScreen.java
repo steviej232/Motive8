@@ -35,14 +35,14 @@ public class HomeScreen extends AppCompatActivity  {
 
 
         Button signOut = (Button) findViewById(R.id.sign_out);
-                    signOut.setOnClickListener(new View.OnClickListener() {
-                                                   @Override
-                                                   public void onClick(View v) {
-                                                       FirebaseAuth.getInstance().signOut();
-                                                       Intent logIn = new Intent(HomeScreen.this, Login.class);
-                                                       startActivity(logIn);
-                                                   }
-                                               });
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent logIn = new Intent(HomeScreen.this, Login.class);
+                startActivity(logIn);
+            }
+        });
 
 
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
@@ -73,7 +73,7 @@ public class HomeScreen extends AppCompatActivity  {
         if (currentVersionCode == savedVersionCode) {
             // Normal run
             //Toast.makeText(getApplicationContext(), "Normal run", Toast.LENGTH_SHORT).show();
-            runTutorial();
+            //runTutorial();
             return;
         }
         else if (savedVersionCode == DOESNT_EXIST) {

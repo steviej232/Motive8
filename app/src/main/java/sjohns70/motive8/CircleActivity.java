@@ -116,7 +116,6 @@ public class CircleActivity extends Activity
         _t.cancel();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
