@@ -28,6 +28,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by KendallGassner on 10/18/16.
@@ -41,6 +43,7 @@ public class Login extends AppCompatActivity  {
     private Button login_submit;
     private TextView login_sign_up;
     private FirebaseAuth mAuth;
+    private DatabaseReference myRef;
     private FirebaseAuth.AuthStateListener mAuthListener;
     public CallbackManager callbackManager;
 
