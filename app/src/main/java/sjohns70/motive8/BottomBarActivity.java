@@ -38,8 +38,8 @@ public class BottomBarActivity {
                         className.startActivity(myIntent);
                         break;
                     case 1:
-                        myIntent = new Intent(className, MapsActivity.class);
-                        //myIntent = new Intent(className, CircleActivity.class);
+                        //myIntent = new Intent(className, MapsActivity.class);
+                        myIntent = new Intent(className, CircleActivity.class);
                         className.startActivity(myIntent);
                         break;
                     case 2:

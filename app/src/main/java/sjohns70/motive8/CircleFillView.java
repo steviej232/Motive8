@@ -21,16 +21,17 @@ public class CircleFillView extends View
 
     private PointF center = new PointF();
     private RectF circleRect = new RectF();
+
     private Path segment = new Path();
     private Paint strokePaint = new Paint();
     private Paint fillPaint = new Paint();
 
     private int radius;
-
     private int fillColor;
     private int strokeColor;
-    private float strokeWidth;
     private int value;
+
+    private float strokeWidth;
 
     public CircleFillView(Context context)
     {
@@ -41,10 +42,7 @@ public class CircleFillView extends View
     {
         super(context, attrs);
 
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.CircleFillView,
-                0, 0);
+        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CircleFillView, 0, 0);
 
         try
         {
@@ -65,63 +63,53 @@ public class CircleFillView extends View
         strokePaint.setStyle(Paint.Style.STROKE);
     }
 
-    public void setFillColor(int fillColor)
-    {
+    /*public void setFillColor(int fillColor) {
         this.fillColor = fillColor;
         fillPaint.setColor(fillColor);
         invalidate();
     }
 
-    public int getFillColor()
-    {
+    public int getFillColor() {
         return fillColor;
     }
 
-    public void setStrokeColor(int strokeColor)
-    {
+    public void setStrokeColor(int strokeColor) {
         this.strokeColor = strokeColor;
         strokePaint.setColor(strokeColor);
         invalidate();
     }
 
-    public int getStrokeColor()
-    {
+    public int getStrokeColor() {
         return strokeColor;
     }
 
-    public void setStrokeWidth(float strokeWidth)
-    {
+    public void setStrokeWidth(float strokeWidth) {
         this.strokeWidth = strokeWidth;
         strokePaint.setStrokeWidth(strokeWidth);
         invalidate();
     }
 
-    public float getStrokeWidth()
-    {
+    public float getStrokeWidth() {
         return strokeWidth;
-    }
+    }*/
 
-    public void setValue(int value)
-    {
+    public void setValue(int value) {
         adjustValue(value);
         setPaths();
 
         invalidate();
     }
 
-    public int getValue()
-    {
+    public int getValue() {
         return value;
     }
 
-    private void adjustValue(int value)
-    {
+    private void adjustValue(int value)  {
         this.value = Math.min(MAX_VALUE, Math.max(MIN_VALUE, value));
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh)
-    {
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
         center.x = getWidth() / 2;
@@ -132,8 +120,7 @@ public class CircleFillView extends View
         setPaths();
     }
 
-    private void setPaths()
-    {
+    private void setPaths() {
         float y = center.y + radius - (2 * radius * value / 100 - 1);
         float x = center.x - (float) Math.sqrt(Math.pow(radius, 2) - Math.pow(y - center.y, 2));
 
@@ -156,7 +143,8 @@ public class CircleFillView extends View
         heart_outline_paint.setColor(Color.RED);
         heart_outline_paint.setStrokeWidth(15);
         heart_outline_paint.setStyle(Paint.Style.STROKE);
-        Path path = new Path();
+        //Path path = new Path();
+
 
         float length = 100;
         float x = canvas.getWidth()/2;
@@ -164,16 +152,16 @@ public class CircleFillView extends View
 
         canvas.rotate(45, x, y);
 
-        path.moveTo(x, y);
-        path.lineTo(x-length, y);
-        path.arcTo(new RectF(x-length-(length/2), y-length, x-(length/2), y), 90, 180);
-        path.arcTo(new RectF(x-length, y-length-(length/2), x, y-(length/2)), 180, 180);
-        path.lineTo(x, y);
-        path.close();
+        segment.moveTo(x, y);
+        segment.lineTo(x-length, y);
+        segment.arcTo(new RectF(x-length-(length/2), y-length, x-(length/2), y), 90, 180);
+        segment.arcTo(new RectF(x-length, y-length-(length/2), x, y-(length/2)), 180, 180);
+        segment.lineTo(x, y);
+        segment.close();
 
-        canvas.drawPath(path, heart_outline_paint);
+        //canvas.drawPath(segment, heart_outline_paint);
 
-        /*canvas.drawPath(segment, fillPaint);
-        canvas.drawCircle(center.x, center.y, radius, strokePaint);*/
+        canvas.drawPath(segment, fillPaint);
+        //canvas.drawCircle(center.x, center.y, radius, strokePaint);
     }
 }

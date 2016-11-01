@@ -18,9 +18,9 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="#ffffff"
-        custom:fillColor="#6bcae2"
-        custom:strokeColor="#75b0d0"
-        custom:strokeWidth="20" />
+        custom:fillColor="#ff0000"
+        custom:strokeColor="#ff0000"
+        custom:strokeWidth="25" />
 
 
 
