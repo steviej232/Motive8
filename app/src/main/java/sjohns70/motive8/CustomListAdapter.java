@@ -5,13 +5,19 @@ package sjohns70.motive8;
  */
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class CustomListAdapter extends BaseAdapter {
@@ -40,10 +46,16 @@ public class CustomListAdapter extends BaseAdapter {
 
         TextView companyName = (TextView) convertView.findViewById(R.id.name);
         TextView description = (TextView) convertView.findViewById(R.id.description);
+        ImageView image = (ImageView) convertView.findViewById(R.id.icon);
 
         companyName.setText(bus.getCompany_name());
         description.setText(bus.getDescription());
 
+
+        Resources res = parent.getResources();
+        String mDrawableName = bus.getLogo();
+        int resID = res.getIdentifier(mDrawableName , "drawable", parent.getContext().getPackageName());
+        image.setImageResource(resID);
 
         return convertView;
 

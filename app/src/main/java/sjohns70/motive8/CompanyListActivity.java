@@ -26,21 +26,6 @@ public class CompanyListActivity extends Activity{
     private ArrayList<BusinessData> businesses;
 
     ListView list;
-    String[] itemname ={
-            "Adidas",
-            "Amazon",
-            "Apple",
-            "Baskin Robbins",
-            "Dell",
-            "Money",
-            "Dominos",
-            "Intel",
-            "Jamba Juice",
-            "Nasa",
-            "Pepsi",
-            "Starbucks",
-            "Target"
-    };
 
     Integer[] imgid={
             R.drawable.adidas,
@@ -103,7 +88,10 @@ public class CompanyListActivity extends Activity{
         });
 
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
-        bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this,2);
+        bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this, 2);
+
+
+
     }
 }
 

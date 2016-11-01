@@ -5,12 +5,14 @@ package sjohns70.motive8;
  */
 
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Point;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.google.firebase.FirebaseApp;
@@ -31,6 +33,7 @@ public class CompanyProfileActivity extends AppCompatActivity {
     private TextView name;
     private TextView description;
     private ListView list;
+    private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class CompanyProfileActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.companyName);
         description = (TextView) findViewById(R.id.businessDescription);
         list = (ListView) findViewById(R.id.rewardsList);
+        image = (ImageView) findViewById(R.id.logoCompanyProfile);
 
         FirebaseApp.initializeApp(getApplicationContext());
         database = FirebaseDatabase.getInstance();
@@ -50,6 +54,12 @@ public class CompanyProfileActivity extends AppCompatActivity {
             name.setText(business.getCompany_name());
             description.setText(business.getDescription());
             getRewards(business.getId());
+
+            Resources res = getResources();
+            String mDrawableName = business.getLogo();
+            int resID = res.getIdentifier(mDrawableName , "drawable", getPackageName());
+            image.setImageResource(resID);
+
         }
 
         adapter = new RewardsAdapter(rewards);

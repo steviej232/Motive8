@@ -25,7 +25,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:id="@+id/imageView2"
+            android:id="@+id/logoCompanyProfile"
             android:layout_centerInParent="false"
             android:layout_below="@+id/companyName"
             android:layout_centerHorizontal="true"
