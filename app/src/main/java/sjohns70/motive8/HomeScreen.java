@@ -3,11 +3,14 @@ package sjohns70.motive8;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,21 +21,21 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class HomeScreen extends AppCompatActivity  {
-        public Button settings;
-        public Button c_list;
-        public Button circle_fill;
-        private android.support.design.widget.CoordinatorLayout coordinatorLayout;
-        private String TAG ="sjohns70";
-        private BottomBar bottomBar;
+    public Button settings;
+    public Button c_list;
+    public Button circle_fill;
+    private android.support.design.widget.CoordinatorLayout coordinatorLayout;
+    private String TAG ="sjohns70";
+    private BottomBar bottomBar;
 
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
+        setupTitle();
 
         // Initialize Firebase Auth
         FirebaseApp.initializeApp(getApplicationContext());
-
 
         Button signOut = (Button) findViewById(R.id.sign_out);
         signOut.setOnClickListener(new View.OnClickListener() {
@@ -44,13 +47,26 @@ public class HomeScreen extends AppCompatActivity  {
             }
         });
 
-
+        // Create bottom bar
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,HomeScreen.this,0);
+
+        // Check if this is the first time the app has been run
         checkFirstRun();
     }
 
+    /**
+     * This method sets up the "MOTIV8" title for the home screen.
+     */
+    private void setupTitle() {
+        TextView title = (TextView)findViewById(R.id.Title);
+        String titleText = "<font color=#404040>Motiv</font><font color=#FFA03E>8</font>";
+        Typeface bebasFont = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf");
 
+        title.setText(Html.fromHtml(titleText));
+        title.setTypeface(bebasFont);
+        title.setTextSize(100);
+    }
 
     /**
      * This method uses shared preferences to save the current app version code. It will check if
