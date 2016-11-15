@@ -53,10 +53,10 @@ public class BottomBarActivity {
                 className.startActivity(myIntent);
             }
         });
-        bottomBar.mapColorForTab(0, "#4A7B6F");
-        bottomBar.mapColorForTab(1, "#00796B");
-        bottomBar.mapColorForTab(2, "#7B1FA2");
-        bottomBar.mapColorForTab(3, "#FF5252");
+        bottomBar.mapColorForTab(0, "#FBC02D");
+        bottomBar.mapColorForTab(1, "#FBC02D");
+        bottomBar.mapColorForTab(2, "#FBC02D");
+        bottomBar.mapColorForTab(3, "#FBC02D");
 
         // Make a Badge for the first tab, with red background color and a value of "4".
         BottomBarBadge unreadMessages = bottomBar.makeBadgeForTabAt(1, "#E91E63", 4);
