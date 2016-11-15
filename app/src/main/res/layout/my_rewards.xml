@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:drawable/dialog_holo_light_frame"
+    android:background="@drawable/list_shadow"
     android:orientation="horizontal">
 
     <ImageView
@@ -19,7 +19,7 @@
             android:id="@+id/name2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#404040"
+            android:textColor="@color/font"
             android:textSize="30sp" />
         <TextView
             android:id="@+id/description2"

@@ -35,7 +35,6 @@ public class CompanyProfileActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private TextView name;
-    private TextView description;
     private ListView list;
     private ImageView image;
 
@@ -44,7 +43,6 @@ public class CompanyProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_company_profile);
         name = (TextView) findViewById(R.id.companyName);
-        description = (TextView) findViewById(R.id.businessDescription);
         list = (ListView) findViewById(R.id.rewardsList);
         image = (ImageView) findViewById(R.id.logoCompanyProfile);
         FirebaseApp.initializeApp(getApplicationContext());
@@ -55,7 +53,6 @@ public class CompanyProfileActivity extends AppCompatActivity {
         setFonts();
         if (business.getCompany_name() != null) {
             name.setText(business.getCompany_name());
-            description.setText(business.getDescription());
             getRewards(business.getId());
 
             Resources res = getResources();
@@ -127,7 +124,6 @@ public class CompanyProfileActivity extends AppCompatActivity {
     private void setFonts(){
         Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Bold.otf");
         Typeface custom_font2 = Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Light.otf");
-        description.setTypeface(custom_font2);
         name.setTypeface(custom_font);
     }
 
