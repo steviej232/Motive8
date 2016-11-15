@@ -1,10 +1,13 @@
 package sjohns70.motive8;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.google.android.gms.plus.model.people.Person;
 
 import java.util.ArrayList;
 
@@ -15,8 +18,11 @@ import java.util.ArrayList;
 public class RewardsAdapter extends BaseAdapter{
 
     private final ArrayList<RewardsData> rewards;
+    private final Typeface font;
 
-    public RewardsAdapter(ArrayList<RewardsData> itemName) { this.rewards = itemName; }
+    public RewardsAdapter(ArrayList<RewardsData> itemName, Typeface font) {
+        this.rewards = itemName;
+        this.font = font;}
 
     @Override
     public int getCount(){ return rewards.size(); }
@@ -33,17 +39,18 @@ public class RewardsAdapter extends BaseAdapter{
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            convertView = inflater.inflate(R.layout.mylist, null);
+            convertView = inflater.inflate(R.layout.my_rewards, null);
         }
 
-        TextView companyName = (TextView) convertView.findViewById(R.id.name);
-        TextView description = (TextView) convertView.findViewById(R.id.description);
+        TextView companyName = (TextView) convertView.findViewById(R.id.name2);
+        TextView description = (TextView) convertView.findViewById(R.id.description2);
 
         companyName.setText(reward.getName());
         description.setText(reward.getDescription());
 
-
+        companyName.setTypeface(font);
             return convertView;
 
         };
+
 }

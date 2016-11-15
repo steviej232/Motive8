@@ -7,14 +7,18 @@ package sjohns70.motive8;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.gms.plus.model.people.Person;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,13 +47,12 @@ public class CompanyProfileActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.businessDescription);
         list = (ListView) findViewById(R.id.rewardsList);
         image = (ImageView) findViewById(R.id.logoCompanyProfile);
-
         FirebaseApp.initializeApp(getApplicationContext());
         database = FirebaseDatabase.getInstance();
         business = (BusinessData) getIntent().getSerializableExtra("Business");
         rewards = new ArrayList<RewardsData>();
 
-
+        setFonts();
         if (business.getCompany_name() != null) {
             name.setText(business.getCompany_name());
             description.setText(business.getDescription());
@@ -62,7 +65,7 @@ public class CompanyProfileActivity extends AppCompatActivity {
 
         }
 
-        adapter = new RewardsAdapter(rewards);
+        adapter = new RewardsAdapter(rewards, Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Light.otf"));
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -72,6 +75,9 @@ public class CompanyProfileActivity extends AppCompatActivity {
                 showSimplePopUp(parent.getItemAtPosition(position).toString());
             }
         });
+
+        BottomBarActivity bottomBarActivity = new BottomBarActivity();
+        bottomBarActivity.createBottomBar(this, savedInstanceState, CompanyProfileActivity.this, 2);
 
     }
 
@@ -116,6 +122,13 @@ public class CompanyProfileActivity extends AppCompatActivity {
                 });
         AlertDialog helpDialog = helpBuilder.create();
         helpDialog.show();
+    }
+
+    private void setFonts(){
+        Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Bold.otf");
+        Typeface custom_font2 = Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Light.otf");
+        description.setTypeface(custom_font2);
+        name.setTypeface(custom_font);
     }
 
 }

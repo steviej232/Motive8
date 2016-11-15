@@ -59,7 +59,9 @@
         <activity
             android:name=".CompanyListActivity" />
         <activity
-            android:name=".CompanyProfileActivity" />
+            android:name=".CompanyProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=

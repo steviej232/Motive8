@@ -53,7 +53,7 @@ public class BottomBarActivity {
                 className.startActivity(myIntent);
             }
         });
-        bottomBar.mapColorForTab(0, "#3B494C");
+        bottomBar.mapColorForTab(0, "#4A7B6F");
         bottomBar.mapColorForTab(1, "#00796B");
         bottomBar.mapColorForTab(2, "#7B1FA2");
         bottomBar.mapColorForTab(3, "#FF5252");
