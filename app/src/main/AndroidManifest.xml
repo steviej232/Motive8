@@ -57,7 +57,9 @@
         <activity android:name=".SignUp" />
 
         <activity
-            android:name=".CompanyListActivity" />
+            android:name=".CompanyListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
         <activity
             android:name=".CompanyProfileActivity"
             android:theme="@style/AppTheme.NoActionBar">

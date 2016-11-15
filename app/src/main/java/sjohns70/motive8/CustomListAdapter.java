@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,8 +24,14 @@ import java.util.ArrayList;
 public class CustomListAdapter extends BaseAdapter {
 
     private final ArrayList<BusinessData> businesses;
+    private Typeface namefont;
+    private Typeface descriptFont;
 
-    public CustomListAdapter(ArrayList<BusinessData> itemName) { this.businesses = itemName; }
+    public CustomListAdapter(ArrayList<BusinessData> itemName, Typeface namefont, Typeface decriptFont) {
+        this.businesses = itemName;
+        this.namefont = namefont;
+        this.descriptFont = descriptFont;
+    }
 
     @Override
     public int getCount(){ return businesses.size(); }
@@ -57,7 +64,11 @@ public class CustomListAdapter extends BaseAdapter {
         int resID = res.getIdentifier(mDrawableName , "drawable", parent.getContext().getPackageName());
         image.setImageResource(resID);
 
+        companyName.setTypeface(namefont);
+        description.setTypeface(descriptFont);
+
         return convertView;
 
     };
+
 }

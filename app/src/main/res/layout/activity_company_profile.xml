@@ -4,37 +4,46 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:id="@+id/logoCompanyProfile"
-            android:layout_below="@+id/companyName"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:layout_marginTop="31dp" />
-
-        <TextView
-            android:text="TextView"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/companyName"
-            android:textColor="#404040"
-            android:layout_marginTop="12dp"
-            android:textSize="36sp"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#404040"
-            android:layout_margin="2dp" />
+            android:background="@android:drawable/dialog_holo_light_frame">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/businessDescription"
-            android:textColor="#404040"
-            android:textSize="20sp" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/logoCompanyProfile"
+                android:layout_below="@+id/companyName"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:layout_marginTop="31dp" />
 
-    <ListView
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/companyName"
+                android:textColor="#404040"
+                android:layout_marginTop="12dp"
+                android:textSize="36sp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FF9800"
+                android:layout_margin="2dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/businessDescription"
+                android:textColor="#404040"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <ListView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/rewardsList"

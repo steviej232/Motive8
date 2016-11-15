@@ -6,6 +6,7 @@ package sjohns70.motive8;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,21 +28,6 @@ public class CompanyListActivity extends Activity{
 
     ListView list;
 
-    Integer[] imgid={
-            R.drawable.adidas,
-            R.drawable.amazon,
-            R.drawable.apple,
-            R.drawable.baskin_robbins,
-            R.drawable.dell,
-            R.drawable.dollar,
-            R.drawable.dominos,
-            R.drawable.intel,
-            R.drawable.jamba_juice,
-            R.drawable.nasa,
-            R.drawable.pepsi,
-            R.drawable.starbucks,
-            R.drawable.target,
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ListView list;
@@ -72,7 +58,8 @@ public class CompanyListActivity extends Activity{
             }
         });
 
-        adapter = new CustomListAdapter(businesses);
+        adapter = new CustomListAdapter(businesses, Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Bold.otf"),
+                                          Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Light.otf"));
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
 
@@ -90,8 +77,7 @@ public class CompanyListActivity extends Activity{
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this, 2);
 
-
-
     }
+
 }
 
