@@ -143,8 +143,6 @@ public class CircleFillView extends View
         heart_outline_paint.setColor(Color.RED);
         heart_outline_paint.setStrokeWidth(15);
         heart_outline_paint.setStyle(Paint.Style.STROKE);
-        //Path path = new Path();
-
 
         float length = 100;
         float x = canvas.getWidth()/2;

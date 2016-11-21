@@ -1,13 +1,53 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sjohns70.motive8.CompanyListActivity">
+    tools:context="sjohns70.motive8.CompanyListActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:id="@+id/logo_layout"
+        android:orientation="horizontal"
+        android:layout_gravity="end"
+        >
+
+        <TextView android:id="@+id/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#242E35"
+            android:shadowDx="-1"
+            android:shadowDy="-1"
+            android:shadowRadius="2"
+            android:layout_marginEnd="75dp"/>
+
+
+        <TextView android:text="10"
+            android:textColor="@color/Black"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:gravity="bottom|end"
+            android:clickable="true"
+            android:textSize="16sp"
+            android:background="@drawable/biceps"
+            android:paddingEnd="20dp"
+            android:paddingBottom="6dp"
+            android:id="@+id/logo"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Black"
+        android:id="@+id/underline"/>
 
     <ListView
         android:id="@+id/list"
+        android:layout_below="@+id/logo_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@android:color/transparent"
         android:dividerHeight="10.0sp"/>
-</RelativeLayout>
+</LinearLayout>

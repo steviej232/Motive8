@@ -8,9 +8,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +27,9 @@ import java.util.ArrayList;
 public class CompanyListActivity extends Activity{
     private CustomListAdapter adapter;
     private ArrayList<BusinessData> businesses;
-
+    private DatabaseReference myRef2;
+    private TextView logo;
+    private UserData userData;
     ListView list;
 
     @Override
@@ -35,13 +39,28 @@ public class CompanyListActivity extends Activity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.company_list);
+        setupLogo();
 
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("BUSINESSES");
         myRef.keepSynced(true);
+        myRef2 = database.getReference("points");
 
-        businesses = new ArrayList<>();
+        myRef2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userData = dataSnapshot.getValue(UserData.class);
+                logo.setText(""+userData.getPoints_earned());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+            businesses = new ArrayList<>();
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,6 +96,24 @@ public class CompanyListActivity extends Activity{
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBarActivity.createBottomBar(this,savedInstanceState,CompanyListActivity.this, 2);
 
+    }
+
+    private void setupLogo(){
+        logo = (TextView)findViewById(R.id.logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(CompanyListActivity.this, HomeScreen.class);
+                CompanyListActivity.this.startActivity(myIntent);
+            }
+        });
+        TextView title = (TextView)findViewById(R.id.Title);
+        String titleText = "<font color=#404040>Motiv</font><font color=#FFA03E>8</font>";
+        Typeface bebasFont = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf");
+
+        title.setText(Html.fromHtml(titleText));
+        title.setTypeface(bebasFont);
+        title.setTextSize(42);
     }
 
 }

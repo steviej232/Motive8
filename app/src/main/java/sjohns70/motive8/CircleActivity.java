@@ -7,7 +7,11 @@ package sjohns70.motive8;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
@@ -32,6 +36,8 @@ public class CircleActivity extends Activity
     private UserData userData;
     private DatabaseReference myRef;
     private BottomBar bottomBar;
+    private TextView logo;
+    private ImageView progress_heart;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -42,7 +48,6 @@ public class CircleActivity extends Activity
         int curTab=0;
         intent.getIntExtra("currentTab",curTab);
 
-        circleFill = (CircleFillView) findViewById(R.id.circleFillView);
         tv_points = (TextView)findViewById(R.id.points_tv);
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -50,8 +55,29 @@ public class CircleActivity extends Activity
         userData = new UserData();
 
         startTimer();
+        setupLogo();
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,CircleActivity.this,1);
+        progress_heart = (ImageView)findViewById(R.id.progress_heart);
+
+    }
+
+    private void setupLogo(){
+        logo = (TextView)findViewById(R.id.logo);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(CircleActivity.this, HomeScreen.class);
+                CircleActivity.this.startActivity(myIntent);
+            }
+        });
+        TextView title = (TextView)findViewById(R.id.Title);
+        String titleText = "<font color=#404040>Motiv</font><font color=#FFA03E>8</font>";
+        Typeface bebasFont = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf");
+
+        title.setText(Html.fromHtml(titleText));
+        title.setTypeface(bebasFont);
+        title.setTextSize(42);
     }
 
     void startTimer(){
@@ -59,8 +85,9 @@ public class CircleActivity extends Activity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userData = dataSnapshot.getValue(UserData.class);
-                tv_points.setText(""+userData.getPoints_earned());
                 points = userData.getPoints_earned();
+                tv_points.setText(""+points);
+                logo.setText(""+points);
                 _count = userData.getCount_remainder();
             }
 
@@ -86,8 +113,7 @@ public class CircleActivity extends Activity
                             userData.setCount_remainder(_count);
                             myRef.setValue(userData);
                         }
-                        //tv_points.setText(""+points);
-                        circleFill.setValue(_count);
+                        progress_heart.getBackground().setLevel(_count*100);
                     }
                 });
             }
@@ -123,4 +149,5 @@ public class CircleActivity extends Activity
         myRef.setValue(userData);
         _t.cancel();
     }
+
 }

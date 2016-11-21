@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,6 +29,10 @@ import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.roughike.bottombar.BottomBar;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -43,6 +49,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private BottomBar bottomBar;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +77,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setInterval(60 * 1000)        // 60 seconds, in milliseconds
                 .setFastestInterval(10 * 1000); // 10 second, in milliseconds
 
-        Bundle receiveBundle = this.getIntent().getExtras();
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
-        bottomBar = bottomBarActivity.createBottomBar(this,receiveBundle,MapsActivity.this,1);
+        bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,MapsActivity.this,1);
+        FirebaseApp.initializeApp(getApplicationContext());
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("locations");
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
@@ -206,4 +218,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
     }
+
 }

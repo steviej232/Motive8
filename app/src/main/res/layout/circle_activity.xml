@@ -5,6 +5,44 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="62dp"
+        android:id="@+id/logo_layout"
+        android:orientation="horizontal"
+        android:layout_gravity="end"
+        >
+
+        <TextView android:id="@+id/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="#242E35"
+            android:shadowDx="-1"
+            android:shadowDy="-1"
+            android:shadowRadius="2"
+            android:layout_marginEnd="75dp"/>
+
+
+        <TextView
+            android:textColor="@color/Black"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:gravity="bottom|end"
+            android:clickable="true"
+            android:textSize="16sp"
+            android:background="@drawable/biceps"
+            android:paddingEnd="20dp"
+            android:paddingBottom="6dp"
+            android:id="@+id/logo"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Black"
+        android:id="@+id/underline"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,15 +50,22 @@
         android:id="@+id/points_tv"
         android:gravity="center"/>
 
-    <sjohns70.motive8.CircleFillView
-        android:id="@+id/circleFillView"
+    <!--<sjohns70.motive8.CircleFillView-->
+        <!--android:id="@+id/circleFillView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="#ffffff"-->
+        <!--custom:fillColor="#ff0000"-->
+        <!--custom:strokeColor="#ff0000"-->
+        <!--custom:strokeWidth="25" />-->
+
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#ffffff"
-        custom:fillColor="#ff0000"
-        custom:strokeColor="#ff0000"
-        custom:strokeWidth="25" />
+        android:layout_height="match_parent"
+        android:layout_margin="40dp"
+        android:background="@drawable/progress_heart"
+        android:id="@+id/progress_heart"/>
 
 
 
