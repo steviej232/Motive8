@@ -50,6 +50,7 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
 
         Button button = (Button)findViewById(R.id.Leaderboard);
         Button button2 = (Button)findViewById(R.id.submit_score);
+        Button button3 = (Button)findViewById(R.id.share);
         setupLogo();
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -86,6 +87,22 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
             public void onClick(View view) {
                 if (getApiClient().isConnected()) {
                     Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.leaderboard_points), 2);
+                }
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent i = new Intent(Intent.ACTION_SEND);
+                    i.setType("text/plain");
+                    i.putExtra(Intent.EXTRA_SUBJECT, "Five Dice Yahtzee");
+                    String sAux = "\nLet me recommend you this application\n\n";
+                    sAux = sAux + "https://play.google.com/store/apps/details?id=edu.sjohns70calpoly.yahtzee \n\n";
+                    i.putExtra(Intent.EXTRA_TEXT, sAux);
+                    startActivity(Intent.createChooser(i, "Choose one"));
+                } catch(Exception e) {
+                    //e.toString();
                 }
             }
         });

@@ -29,10 +29,10 @@
             android:layout_height="62dp"
             android:gravity="bottom|end"
             android:clickable="true"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:background="@drawable/biceps"
             android:paddingEnd="20dp"
-            android:paddingBottom="6dp"
+            android:paddingBottom="8dp"
             android:id="@+id/logo"
             />
     </LinearLayout>

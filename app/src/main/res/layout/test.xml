@@ -54,6 +54,12 @@
         android:id="@+id/submit_score"
         android:text="Submit_score"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/share"
+        android:text="Share with friends!"/>
+
 
 
 </LinearLayout>

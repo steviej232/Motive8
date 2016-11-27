@@ -40,9 +40,11 @@
 
         </activity>
         <activity
-            android:name=".TestActivity"  />
+            android:name=".TestActivity"
+            android:screenOrientation="portrait"/>
         <activity android:label="@string/app_name" android:name=".HomeScreen"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"></activity>
         <activity android:label="@string/app_name" android:name=".Login">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -54,16 +56,19 @@
             android:name=".MainActivity"
             android:label="MainActivity"/>
         <activity
-            android:name=".CircleActivity" />
+            android:name=".CircleActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".SignUp" />
 
         <activity
             android:name=".CompanyListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".CompanyProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity android:name="com.facebook.FacebookActivity"

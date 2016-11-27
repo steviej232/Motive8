@@ -13,8 +13,10 @@ import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +40,7 @@ public class CircleActivity extends Activity
     private BottomBar bottomBar;
     private TextView logo;
     private ImageView progress_heart;
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -51,7 +54,9 @@ public class CircleActivity extends Activity
         tv_points = (TextView)findViewById(R.id.points_tv);
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("points");
+        mAuth = FirebaseAuth.getInstance();
+        //myRef = database.getReference("points");
+        myRef = database.getReference("USERS");
         userData = new UserData();
 
         startTimer();
@@ -59,7 +64,7 @@ public class CircleActivity extends Activity
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,CircleActivity.this,1);
         progress_heart = (ImageView)findViewById(R.id.progress_heart);
-
+        Toast.makeText(getApplicationContext(),""+mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
     }
 
     private void setupLogo(){
@@ -75,6 +80,7 @@ public class CircleActivity extends Activity
         String titleText = "<font color=#404040>Motiv</font><font color=#FFA03E>8</font>";
         Typeface bebasFont = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf");
 
+        logo.setTypeface(bebasFont);
         title.setText(Html.fromHtml(titleText));
         title.setTypeface(bebasFont);
         title.setTextSize(42);
@@ -88,6 +94,7 @@ public class CircleActivity extends Activity
                 points = userData.getPoints_earned();
                 tv_points.setText(""+points);
                 logo.setText(""+points);
+                myRef.child(mAuth.getCurrentUser().getUid()).child("points_earned").setValue(points);
                 _count = userData.getCount_remainder();
             }
 
@@ -110,6 +117,7 @@ public class CircleActivity extends Activity
                         if(_count == 100) {
                             _count = 0;
                             userData.setPoints_earned(++points);
+                            myRef.child(mAuth.getCurrentUser().getUid()).child("point_remainder").setValue(_count);
                             userData.setCount_remainder(_count);
                             myRef.setValue(userData);
                         }
