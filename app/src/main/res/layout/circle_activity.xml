@@ -50,15 +50,6 @@
         android:id="@+id/points_tv"
         android:gravity="center"/>
 
-    <!--<sjohns70.motive8.CircleFillView-->
-        <!--android:id="@+id/circleFillView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="#ffffff"-->
-        <!--custom:fillColor="#ff0000"-->
-        <!--custom:strokeColor="#ff0000"-->
-        <!--custom:strokeWidth="25" />-->
 
     <ImageView
         android:layout_width="match_parent"
