@@ -2,6 +2,10 @@ package sjohns70.motive8;
 
 /**
  * Created by Kendall on 10/2/2016.
+ *
+ * This activity is used display a companies profile and available coupons
+ * users should be able to purchase coupons with their points from this activity
+ *
  */
 
 import android.content.DialogInterface;
@@ -40,7 +44,9 @@ public class CompanyProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_company_profile);
         name = (TextView) findViewById(R.id.companyName);
         list = (ListView) findViewById(R.id.rewardsList);
@@ -51,6 +57,7 @@ public class CompanyProfileActivity extends AppCompatActivity {
         rewards = new ArrayList<RewardsData>();
 
         setFonts();
+
         if (business.getCompany_name() != null) {
             name.setText(business.getCompany_name());
             getRewards(business.getId());
@@ -59,10 +66,11 @@ public class CompanyProfileActivity extends AppCompatActivity {
             String mDrawableName = business.getLogo();
             int resID = res.getIdentifier(mDrawableName , "drawable", getPackageName());
             image.setImageResource(resID);
-
         }
 
-        adapter = new RewardsAdapter(rewards, Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Light.otf"));
+        adapter = new RewardsAdapter(rewards, Typeface.createFromAsset(
+                getAssets(), "fonts/Montserrat-Light.otf"));
+
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,11 +81,15 @@ public class CompanyProfileActivity extends AppCompatActivity {
             }
         });
 
+        //create an instance of the bottom bar
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBarActivity.createBottomBar(this, savedInstanceState, CompanyProfileActivity.this, 2);
 
     }
 
+    /*
+    * Here we are gathering all of the rewards from the database
+    */
     protected void getRewards(final String businessId){
         myRef = database.getReference("REWARDS");
         myRef.keepSynced(true);
@@ -99,7 +111,10 @@ public class CompanyProfileActivity extends AppCompatActivity {
         });
     }
 
-
+    /*
+    * this function creates a popup to show up when a user select one
+    * of the companies coupons
+    * */
     private void showSimplePopUp(String name) {
 
         AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
@@ -108,7 +123,7 @@ public class CompanyProfileActivity extends AppCompatActivity {
         helpBuilder.setPositiveButton("Accept",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //we will need to update the database
+                        //TODO: allow users to purchase coupons
                     }
                 });
         helpBuilder.setNegativeButton("back",
@@ -121,9 +136,11 @@ public class CompanyProfileActivity extends AppCompatActivity {
         helpDialog.show();
     }
 
+    /*
+    * this function allows us to use custom fonts
+    */
     private void setFonts(){
         Typeface custom_font = Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Bold.otf");
-        Typeface custom_font2 = Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Light.otf");
         name.setTypeface(custom_font);
     }
 
