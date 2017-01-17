@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +33,7 @@ public class CompanyListActivity extends Activity{
     private ArrayList<BusinessData> businesses;
     private DatabaseReference myRef;
     private FirebaseDatabase database;
+    private FirebaseAuth mAuth;
 
     private TextView logo;
     private UserData userData;
@@ -125,7 +127,8 @@ public class CompanyListActivity extends Activity{
     }
     
     private void getPoints(){
-        myRef = database.getReference("points");
+        mAuth = FirebaseAuth.getInstance();
+        myRef = database.getReference("USERS").child(mAuth.getCurrentUser().getUid());
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

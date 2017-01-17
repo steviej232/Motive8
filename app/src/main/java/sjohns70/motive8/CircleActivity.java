@@ -56,7 +56,7 @@ public class CircleActivity extends Activity
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         //myRef = database.getReference("points");
-        myRef = database.getReference("USERS");
+        myRef = database.getReference("USERS").child(mAuth.getCurrentUser().getUid());
         userData = new UserData();
 
         startTimer();
@@ -94,7 +94,7 @@ public class CircleActivity extends Activity
                 points = userData.getPoints_earned();
                 tv_points.setText(""+points);
                 logo.setText(""+points);
-                myRef.child(mAuth.getCurrentUser().getUid()).child("points_earned").setValue(points);
+                myRef.child("points_earned").setValue(points);
                 _count = userData.getCount_remainder();
             }
 
@@ -117,7 +117,7 @@ public class CircleActivity extends Activity
                         if(_count == 100) {
                             _count = 0;
                             userData.setPoints_earned(++points);
-                            myRef.child(mAuth.getCurrentUser().getUid()).child("point_remainder").setValue(_count);
+                            myRef.child("point_remainder").setValue(_count);
                             userData.setCount_remainder(_count);
                             myRef.setValue(userData);
                         }
