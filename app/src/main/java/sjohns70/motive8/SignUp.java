@@ -1,5 +1,6 @@
-package sjohns70.motive8;
+/* Copyright statement */
 
+package sjohns70.motive8;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,11 +22,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-
 /**
- * Created by KendallGassner on 10/18/16.
+ * SignUp.java
+ *
+ * This class handles creating new user accounts.
  */
-
 public class SignUp extends AppCompatActivity {
 
     private String TAG = "SignUp page";

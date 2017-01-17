@@ -1,3 +1,5 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import android.content.Context;
@@ -12,7 +14,9 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * Created by Steven on 9/14/2016.
+ * CircleFillView.java
+ *
+ * This class
  */
 public class CircleFillView extends View
 {

@@ -1,10 +1,14 @@
-package sjohns70.motive8;
+/* Copyright statement */
 
+package sjohns70.motive8;
 
 import java.io.Serializable;
 
 /**
- * Created by KendallGassner on 10/6/16.
+ * BusinessData.java
+ *
+ * This class represents a Business including logo, business id, description of the business, and
+ * company name.
  */
 
 public class BusinessData implements Serializable {
@@ -15,13 +19,13 @@ public class BusinessData implements Serializable {
 
     public BusinessData() {}
 
-    public BusinessData(String descript, String name, String image, String uniqueId){
+    public BusinessData(String descript, String name, String image, String uniqueId) {
         description = descript;
         company_name = name;
         logo = image;
         id = uniqueId;
-
     }
+
     public String getLogo() {
         return logo;
     }
@@ -29,7 +33,6 @@ public class BusinessData implements Serializable {
     public void setLogo(String logo) {
         this.logo = logo;
     }
-
 
     public String getId() {
         return id;

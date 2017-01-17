@@ -1,3 +1,5 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import android.content.Intent;
@@ -10,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -32,9 +33,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * Created by KendallGassner on 10/18/16.
+ * Login.java
+ *
+ * This class handles the user login process, authenticating user credentials.
  */
-
 public class Login extends AppCompatActivity  {
 
     public LoginButton facebookLoginButton;

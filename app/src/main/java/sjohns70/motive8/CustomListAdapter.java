@@ -1,8 +1,6 @@
-package sjohns70.motive8;
+/* Copyright statement */
 
-/**
- * Created by Steven on 9/14/2016.
- */
+package sjohns70.motive8;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -21,6 +19,11 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * CustomListAdapter.java
+ *
+ * This class
+ */
 public class CustomListAdapter extends BaseAdapter {
 
     private final ArrayList<BusinessData> businesses;

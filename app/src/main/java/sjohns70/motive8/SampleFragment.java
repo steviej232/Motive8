@@ -1,9 +1,6 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
-
-/**
- * Created by Steven on 10/13/2016.
- */
-
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * SampleFragment.java
+ *
+ * This class
+ */
 public class SampleFragment extends Fragment {
     private static final String STARTING_TEXT = "Four Buttons Bottom Navigation";
 

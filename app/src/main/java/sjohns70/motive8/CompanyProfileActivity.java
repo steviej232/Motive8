@@ -1,12 +1,6 @@
-package sjohns70.motive8;
+/* Copyright statement */
 
-/**
- * Created by Kendall on 10/2/2016.
- *
- * This activity is used display a companies profile and available coupons
- * users should be able to purchase coupons with their points from this activity
- *
- */
+package sjohns70.motive8;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -37,6 +31,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
+/**
+ * CompanyProfileActivity.java
+ *
+ * This activity is used to display a company's profile and available coupons. Users should
+ * be able to purchasee coupons with their points from this activity.
+ */
 public class CompanyProfileActivity extends AppCompatActivity {
     private ArrayList<RewardsData> rewards;
     private RewardsAdapter adapter;

@@ -1,3 +1,5 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import android.content.SharedPreferences;
@@ -16,6 +18,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * MainActivity.java
+ *
+ * Isn't this activity currently unused? - Zach
+ */
 public class MainActivity extends AppCompatActivity {
     // Remove the below line after defining your own ad unit ID.
 

@@ -1,11 +1,15 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
- * Created by Steven on 10/4/2016.
+ * UserData.java
+ *
+ * This class represents a single user's data including username, email, number of points earned,
+ * a saved state of their progress towards earning a single point, and their password.
  */
-
 @IgnoreExtraProperties
 public class UserData {
 
