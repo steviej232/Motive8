@@ -94,7 +94,6 @@ public class CircleActivity extends Activity
                 points = userData.getPoints_earned();
                 tv_points.setText(""+points);
                 logo.setText(""+points);
-                myRef.child("points_earned").setValue(points);
                 _count = userData.getCount_remainder();
             }
 
@@ -110,14 +109,13 @@ public class CircleActivity extends Activity
 
                 _count++;
 
-                runOnUiThread(new Runnable() //run on ui threa
+                runOnUiThread(new Runnable() //run on ui thread
                 {
                     public void run()
                     {
                         if(_count == 100) {
                             _count = 0;
                             userData.setPoints_earned(++points);
-                            myRef.child("point_remainder").setValue(_count);
                             userData.setCount_remainder(_count);
                             myRef.setValue(userData);
                         }

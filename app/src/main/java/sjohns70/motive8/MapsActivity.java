@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -167,10 +166,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 circle.getCenter().latitude, circle.getCenter().longitude, distance);
 
         if( distance[0] > circle.getRadius()  ){
-            Toast.makeText(getBaseContext(), "Outside", Toast.LENGTH_LONG).show();
             return false;
         } else {
-            Toast.makeText(getBaseContext(), "Inside", Toast.LENGTH_LONG).show();
             return true;
         }
     }
@@ -364,7 +361,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // Placing a marker on the touched position
                 mMap.addMarker(markerOptions);
 
-
+                //Create a circle with radius 200ft around the users current location
+                //If the user is inside a gym radius they will begin accumluating points
                 Circle circle = mMap.addCircle(new CircleOptions()
                         .center(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()))
                         .radius(200)
