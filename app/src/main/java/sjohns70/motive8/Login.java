@@ -1,9 +1,11 @@
 package sjohns70.motive8;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +44,7 @@ public class Login extends AppCompatActivity  {
     private EditText login_password;
     private Button login_submit;
     private TextView login_sign_up;
+    private TextView login_sign_up_text;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -59,7 +62,10 @@ public class Login extends AppCompatActivity  {
         login_email = (EditText) findViewById(R.id.login_email);
         login_password = (EditText) findViewById(R.id.login_password);
         login_sign_up = (TextView) findViewById(R.id.sign_up);
+        login_sign_up_text =(TextView) findViewById(R.id.sign_up_text);
         login_submit = (Button) findViewById(R.id.submit_login);
+
+        setupFont();
 
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
@@ -187,4 +193,25 @@ public class Login extends AppCompatActivity  {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null;
     }
+
+    /**
+     * This method sets up the "MOTIV8" title for the home screen as well
+     * as other fonts.
+     */
+    private void setupFont() {
+        TextView title = (TextView)findViewById(R.id.login_title);
+        String titleText = "<font color=#404040>Motiv</font><font color=#FFA03E>8</font>";
+        Typeface bebasFont_bold = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf");
+        Typeface bebasFont = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Regular.otf");
+
+        title.setText(Html.fromHtml(titleText));
+        title.setTypeface(bebasFont_bold);
+        login_sign_up_text.setTypeface(bebasFont);
+        login_sign_up.setTypeface(bebasFont);
+        login_email.setTypeface(bebasFont);
+        login_password.setTypeface(bebasFont);
+        login_submit.setTypeface(bebasFont_bold);
+        title.setTextSize(100);
+    }
+
 }
