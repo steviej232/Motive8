@@ -17,6 +17,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +45,7 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
     private DatabaseReference myRef;
     private TextView logo;
     private UserData userData;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +58,8 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
         setupLogo();
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("points");
+        mAuth = FirebaseAuth.getInstance();
+        myRef = database.getReference("USERS").child(mAuth.getCurrentUser().getUid());
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

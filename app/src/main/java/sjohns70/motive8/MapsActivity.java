@@ -64,6 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
+    private Location currentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,16 +131,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        StringBuilder sbValue = new StringBuilder(sbMethod(location));
+        currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        StringBuilder sbValue = new StringBuilder(sbMethod(currentLocation));
         PlacesTask placesTask = new PlacesTask();
         placesTask.execute(sbValue.toString());
-        if (location == null) {
+        if (currentLocation == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
         else {
             try {
-                handleNewLocation(location);
+                handleNewLocation(currentLocation);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -157,17 +158,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(options);
         float zoomLevel = 14; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
-        Circle circle = mMap.addCircle(new CircleOptions()
-                .center(new LatLng(currentLatitude,currentLongitude))
-                .radius(1000)
-                .strokeColor(Color.RED)
-                .fillColor(Color.BLUE));
-        boolean in_circle = is_inside_circle(options,circle);
-        if(in_circle) {
-            Intent myIntent = new Intent(MapsActivity.this, CircleActivity.class);
-            startActivity(myIntent);
-        }
-
     }
 
     public boolean is_inside_circle(MarkerOptions marker, Circle circle){
@@ -373,6 +363,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 // Placing a marker on the touched position
                 mMap.addMarker(markerOptions);
+
+
+                Circle circle = mMap.addCircle(new CircleOptions()
+                        .center(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()))
+                        .radius(200)
+                        .strokeColor(Color.RED)
+                        .fillColor(Color.BLUE));
+                boolean in_circle = is_inside_circle(markerOptions,circle);
+                if(in_circle) {
+                    Intent myIntent = new Intent(MapsActivity.this, CircleActivity.class);
+                    startActivity(myIntent);
+                }
 
             }
         }

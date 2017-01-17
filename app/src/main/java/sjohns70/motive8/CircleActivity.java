@@ -56,7 +56,6 @@ public class CircleActivity extends Activity
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        //myRef = database.getReference("points");
         myRef = database.getReference("USERS").child(mAuth.getCurrentUser().getUid());
         userData = new UserData();
 
