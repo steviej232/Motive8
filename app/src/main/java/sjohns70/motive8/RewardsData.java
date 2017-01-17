@@ -1,9 +1,12 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 /**
- * Created by KendallGassner on 10/6/16.
+ * RewardsData.java
+ *
+ * This class represents a coupon with associated business information and a coupon description.
  */
-
 public class RewardsData {
 
     private String id;

@@ -1,3 +1,5 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import android.graphics.Typeface;
@@ -12,9 +14,10 @@ import com.google.android.gms.plus.model.people.Person;
 import java.util.ArrayList;
 
 /**
- * Created by KendallGassner on 10/13/16.
+ * RewardsAdapter.java
+ *
+ * This class
  */
-
 public class RewardsAdapter extends BaseAdapter{
 
     private final ArrayList<RewardsData> rewards;

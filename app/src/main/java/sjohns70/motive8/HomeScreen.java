@@ -1,3 +1,5 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import android.content.Intent;
@@ -20,6 +22,12 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
+/**
+ * HomeScreen.java
+ *
+ * This class creates the app's homescreen and runs a tutorial if this is the first time the app
+ * is being run.
+ */
 public class HomeScreen extends AppCompatActivity  {
     public Button settings;
     public Button c_list;

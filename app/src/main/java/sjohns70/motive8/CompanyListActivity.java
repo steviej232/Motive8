@@ -1,12 +1,6 @@
-package sjohns70.motive8;
+/* Copyright statement */
 
-/**
- * Created by Steven on 9/14/2016.
- *
- * This activity is used to display all of the companies that have coupons
- * available on our app
- *
- */
+package sjohns70.motive8;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +22,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/**
+ * CompanyListActivity.java
+ *
+ * This class is used to display all of the companies that have coupons available.
+ */
 public class CompanyListActivity extends Activity{
     private CustomListAdapter adapter;
     private ArrayList<BusinessData> businesses;

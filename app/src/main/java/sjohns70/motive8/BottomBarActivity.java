@@ -1,3 +1,5 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import android.app.Activity;
@@ -11,7 +13,9 @@ import com.roughike.bottombar.BottomBarTab;
 import com.roughike.bottombar.OnTabSelectedListener;
 
 /**
- * Created by Steven on 10/6/2016.
+ * BottomBarActivity.java
+ *
+ * This class handles the settings and creation of the app's bottom bar.
  */
 
 public class BottomBarActivity {

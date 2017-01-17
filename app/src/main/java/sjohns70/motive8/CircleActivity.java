@@ -1,9 +1,6 @@
-package sjohns70.motive8;
+/* Copyright statement */
 
-/**
- * Created by Steven on 9/27/2016.
- * test edit : Zach
- */
+package sjohns70.motive8;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,7 +24,11 @@ import com.roughike.bottombar.BottomBar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * CircleActivity.java
+ *
+ * This class
+ */
 public class CircleActivity extends Activity
 {
     CircleFillView circleFill;

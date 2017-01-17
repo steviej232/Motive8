@@ -1,3 +1,5 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import android.content.Intent;
@@ -21,11 +23,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 /**
- * Created by Steven on 9/29/2016.
+ * TestActivity.java
+ *
+ * This class
  */
-
 public class TestActivity extends BaseGameActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
 

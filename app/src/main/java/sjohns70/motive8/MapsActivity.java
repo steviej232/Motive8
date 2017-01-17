@@ -1,3 +1,5 @@
+/* Copyright statement */
+
 package sjohns70.motive8;
 
 import android.content.Intent;
@@ -35,6 +37,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.roughike.bottombar.BottomBar;
 
+/**
+ * MapsActivity.java
+ *
+ * This class displays google maps and tries to authenticate the user's location to confirm
+ * they're in the gym. If the user is the gym, this activity will transition to the heart-fill
+ * activity (CircleActivity).
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
