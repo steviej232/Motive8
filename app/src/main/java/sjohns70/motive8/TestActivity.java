@@ -46,6 +46,7 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
     private TextView logo;
     private UserData userData;
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,10 +57,12 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
         Button button2 = (Button)findViewById(R.id.submit_score);
         Button button3 = (Button)findViewById(R.id.share);
         setupLogo();
+
         FirebaseApp.initializeApp(getApplicationContext());
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        myRef = database.getReference("USERS").child(mAuth.getCurrentUser().getUid());
+        database = FirebaseDatabase.getInstance();
+
+        getPoints();
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -132,6 +135,22 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
         title.setText(Html.fromHtml(titleText));
         title.setTypeface(bebasFont);
         title.setTextSize(42);
+    }
+
+    private void getPoints(){
+        mAuth = FirebaseAuth.getInstance();
+        myRef = database.getReference("USERS").child(mAuth.getCurrentUser().getUid());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userData = dataSnapshot.getValue(UserData.class);
+                logo.setText("" + userData.getPoints_earned());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
