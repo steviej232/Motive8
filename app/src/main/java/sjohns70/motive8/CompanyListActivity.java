@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,16 +38,15 @@ public class CompanyListActivity extends Activity{
 
     private TextView logo;
     private UserData userData;
-    ListView list;
+    GridView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ListView list;
 
         setContentView(R.layout.company_list);
-        list = (ListView) findViewById(R.id.list);
+        list = (GridView) findViewById(R.id.list);
 
         setupLogo();
 
@@ -55,9 +56,8 @@ public class CompanyListActivity extends Activity{
         getCompanies();
         getPoints();
 
-        adapter = new CustomListAdapter(businesses, Typeface.createFromAsset(
-                getAssets(),  "fonts/Montserrat-Bold.otf"),
-                Typeface.createFromAsset(getAssets(),  "fonts/Montserrat-Light.otf"));
+        adapter = new CustomListAdapter(businesses,
+                Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf"));
 
         list.setAdapter(adapter);
 
@@ -113,6 +113,7 @@ public class CompanyListActivity extends Activity{
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for ( DataSnapshot data : dataSnapshot.getChildren()) {
                     BusinessData bus = data.getValue(BusinessData.class);
+                    //TODO check if the business is already in the list
                     businesses.add(bus);
                 }
                 adapter.notifyDataSetChanged();
