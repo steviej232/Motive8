@@ -5,5 +5,5 @@ Save this file as res/values/games-ids.xml in your project.
 -->
 <resources>
     <string name="app_id">466582461745</string>
-    <string name="leaderboard_points">CgkIs7nvwvgJEAIQAQ</string>
+    <string name="Leaderboard_points_earned">CgkIsbrtk8oNEAIQAQ</string>
 </resources>

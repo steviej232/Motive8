@@ -87,6 +87,7 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
             @Override
             public void onClick(View view) {
                 startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(getApiClient()),1);
+                Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.Leaderboard_points_earned), userData.getPoints_earned());
             }
         });
 
@@ -94,7 +95,7 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
             @Override
             public void onClick(View view) {
                 if (getApiClient().isConnected()) {
-                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.leaderboard_points), 2);
+                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.Leaderboard_points_earned), 2);
                 }
             }
         });

@@ -31,8 +31,7 @@ import java.util.TimerTask;
  */
 public class CircleActivity extends Activity
 {
-    CircleFillView circleFill;
-    Timer _t,timer;
+    Timer _t;
     int _count;
     private TextView tv_points;
     private int points;

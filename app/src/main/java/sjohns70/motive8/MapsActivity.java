@@ -1,5 +1,6 @@
 package sjohns70.motive8;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -11,7 +12,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -64,6 +67,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef;
     private Location currentLocation;
+    private TrackGPS gps;
+    double longitude;
+    double latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +101,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         bottomBar = bottomBarActivity.createBottomBar(this, savedInstanceState, MapsActivity.this, 1);
         FirebaseApp.initializeApp(getApplicationContext());
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("locations");
         mAuth = FirebaseAuth.getInstance();
+
     }
+
 
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -131,9 +138,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        StringBuilder sbValue = new StringBuilder(sbMethod(currentLocation));
-        PlacesTask placesTask = new PlacesTask();
-        placesTask.execute(sbValue.toString());
         if (currentLocation == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
@@ -148,15 +152,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void handleNewLocation(Location location) throws InterruptedException {
         Log.d(TAG, location.toString());
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
-        LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+        gps = new TrackGPS(MapsActivity.this);
+
+        if(gps.canGetLocation()) {
+            longitude = gps.getLongitude();
+            latitude = gps.getLatitude();
+            Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
+        }
+        LatLng latLng = new LatLng(latitude,longitude);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
                 .title("I am here! "+latLng);
         mMap.addMarker(options);
         float zoomLevel = 14; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+        findNearbyGyms();
+    }
+
+    private void findNearbyGyms(){
+        StringBuilder sbValue = new StringBuilder(sbMethod(longitude,latitude));
+        PlacesTask placesTask = new PlacesTask();
+        placesTask.execute(sbValue.toString());
     }
 
     public boolean is_inside_circle(MarkerOptions marker, Circle circle){
@@ -171,6 +187,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return true;
         }
     }
+
+    private void showSimplePopUp() {
+        final AlertDialog.Builder helpBuilder = new AlertDialog.Builder(this);
+        helpBuilder.setTitle("Not located inside a gym");
+        helpBuilder.setMessage("You aren't located inside a valid gym.  Please use the orange markers on the map to locate a nearby gym to begin earning points!");
+        helpBuilder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                            
+                        }
+
+                });
+        helpBuilder.setNegativeButton("back",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Do nothing but close the dialog
+                    }
+                });
+        AlertDialog helpDialog = helpBuilder.create();
+        helpDialog.show();
+    }
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -209,19 +247,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         try {
             handleNewLocation(location);
+            Toast.makeText(getApplicationContext(),"Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude(),Toast.LENGTH_SHORT).show();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public StringBuilder sbMethod(Location location) {
-
-        //use your current location here
-        double mLatitude = location.getLatitude();
-        double mLongitude = location.getLongitude();
+    public StringBuilder sbMethod(double longitude, double latitude) {
 
         StringBuilder sb = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        sb.append("location=" + mLatitude + "," + mLongitude);
+        sb.append("location=" + latitude + "," + longitude);
         sb.append("&radius=5000");
         sb.append("&types=" + "gym");
         sb.append("&sensor=true");
@@ -322,7 +357,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Executed after the complete execution of doInBackground() method
         @Override
         protected void onPostExecute(List<HashMap<String, String>> list) {
-
+            boolean in_circle = false;
             Log.d("Map", "list size: " + list.size());
             // Clears all the existing markers;
             //mMap.clear();
@@ -356,7 +391,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 markerOptions.title(name + " : " + vicinity);
 
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
 
                 // Placing a marker on the touched position
                 mMap.addMarker(markerOptions);
@@ -364,18 +399,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 //Create a circle with radius 200ft around the users current location
                 //If the user is inside a gym radius they will begin accumluating points
                 Circle circle = mMap.addCircle(new CircleOptions()
-                        .center(new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude()))
+                        .center(new LatLng(latitude,longitude))
                         .radius(200)
                         .strokeColor(Color.RED)
                         .fillColor(Color.BLUE));
-                boolean in_circle = is_inside_circle(markerOptions,circle);
+                in_circle = is_inside_circle(markerOptions,circle);
                 if(in_circle) {
                     Intent myIntent = new Intent(MapsActivity.this, CircleActivity.class);
                     startActivity(myIntent);
                 }
-
             }
+            if(!in_circle)
+                showSimplePopUp();
         }
+
+
     }
 
 
