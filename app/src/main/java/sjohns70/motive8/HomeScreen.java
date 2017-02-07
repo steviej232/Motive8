@@ -2,25 +2,27 @@
 
 package sjohns70.motive8;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ImageView;
+import android.app.Dialog;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.roughike.bottombar.BottomBar;
-
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 /**
  * HomeScreen.java
@@ -77,7 +79,7 @@ public class HomeScreen extends AppCompatActivity  {
     }
 
     /**
-     * This method uses shared preferences to save the current app version code. It will check if
+     * This method uses shared preferences to save the current app version-code. It will check if
      * this startup of the app is the first launch after installation, first launch after updating,
      * or just a normal run.
      */
@@ -96,77 +98,107 @@ public class HomeScreen extends AppCompatActivity  {
         // Compare current and saved version codes to determine run type
         if (currentVersionCode == savedVersionCode) {
             // Normal run
-            //Toast.makeText(getApplicationContext(), "Normal run", Toast.LENGTH_SHORT).show();
-            //runTutorial();
+            runTutorial();
             return;
         }
         else if (savedVersionCode == DOESNT_EXIST) {
             // First run
-            //Toast.makeText(getApplicationContext(), "First run", Toast.LENGTH_SHORT).show();
             runTutorial();
         }
         else if (currentVersionCode > savedVersionCode) {
-            // This is an upgrade
-            //Toast.makeText(getApplicationContext(), "Upgraded", Toast.LENGTH_SHORT).show();
+            // First run since update
+            runTutorial();
         }
 
         // Update shared preferences with current version code
+        // Invoking edit() will create prefereces file if one doesn't already exist
         prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
-    /* This method runs an app tutorial using showcaseview to instruct the user
-     * on how to use the app */
+    /**
+     *  This method runs a tutorial instructing the user on how to use the app.
+     */
     private void runTutorial() {
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this);
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(250); // quarter second between each showcase view
-        sequence.setConfig(config);
+        // Create views from custom xml layout for each Dialog
+        LayoutInflater inflater = getLayoutInflater();
+        final View welcomeView = inflater.inflate(R.layout.tutorial_dialog, null);
+        final View mapsView = inflater.inflate(R.layout.tutorial_dialog, null);
+        final View couponsView = inflater.inflate(R.layout.tutorial_dialog, null);
+        final View settingsView = inflater.inflate(R.layout.tutorial_dialog, null);
 
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(bottomBar.getBar())
-                        .setTitleText("Home Button")
-                        .setTitleTextColor(ContextCompat.getColor(this, R.color.white))
-                        .setDismissText("GOT IT")
-                        .setDismissTextColor(ContextCompat.getColor(this, R.color.white))
-                        .setContentText("This is the home button")
-                        .setContentTextColor(ContextCompat.getColor(this, R.color.white))
-                        .setMaskColour(Color.parseColor("#F2FFA500"))
-                        .withRectangleShape()
-                        .build()
-        );
+        // Create builders for each dialog
+        final AlertDialog.Builder welcomeBuilder = new AlertDialog.Builder(HomeScreen.this);
+        final AlertDialog.Builder mapsBuilder = new AlertDialog.Builder(HomeScreen.this);
+        final AlertDialog.Builder couponsBuilder = new AlertDialog.Builder(HomeScreen.this);
+        final AlertDialog.Builder settingsBuilder = new AlertDialog.Builder(HomeScreen.this);
 
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(bottomBar.getBar())
-                        .setTitleText("Coupons Button")
-                        .setDismissText("GOT IT")
-                        .setContentText("This is the coupons button")
-                        .withRectangleShape()
-                        .build()
-        );
+        // Create settings dialog
+        setupCustomDialog(settingsBuilder, settingsView, R.drawable.ic_library_add_black_24dp,
+                R.string.tutorial_settingTitle, R.string.tutorial_settingMsg, null);
+        final AlertDialog settingsDialog = settingsBuilder.create();
 
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(bottomBar.getBar())
-                        .setTitleText("Leaderboard Button")
-                        .setDismissText("GOT IT")
-                        .setContentText("This is the leaderboard button")
-                        .withRectangleShape()
-                        .build()
-        );
+        // Create coupons dialog
+        setupCustomDialog(couponsBuilder, couponsView, R.drawable.ic_card_giftcard_black_24dp,
+                R.string.tutorial_couponTitle, R.string.tutorial_couponMsg, settingsDialog);
+        final AlertDialog couponsDialog = couponsBuilder.create();
 
-        sequence.addSequenceItem (
-                new MaterialShowcaseView.Builder(this)
-                        .setTarget(bottomBar.getBar())
-                        .setTitleText("More Button")
-                        .setDismissText("GOT IT")
-                        .setContentText("This is the more button")
-                        .withRectangleShape()
-                        .build()
-        );
+        // Create maps dialog
+        setupCustomDialog(mapsBuilder, mapsView, R.drawable.ic_nearby, R.string.tutorial_mapTitle,
+                R.string.tutorial_mapMsg, couponsDialog);
+        final AlertDialog mapsDialog = mapsBuilder.create();
 
+        // Create welcome dialog
+        setupCustomDialog(welcomeBuilder, welcomeView, R.drawable.ic_home_black_24dp,
+                R.string.tutorial_welcomeTitle, R.string.tutorial_welcomeMsg, mapsDialog);
+        final AlertDialog welcomeDialog = welcomeBuilder.create();
 
-        sequence.start();
+        // Start the tutorial
+        welcomeDialog.show();
+    }
+
+    /**
+     * This method applies a custom xml layout view to a dialog box
+     * @param builder The builder for the AlertDialog object
+     * @param customView A view derived from an inflater representing the xml layout to be applied
+     * @param imgResource Drawable resource reference for dialog title icon
+     * @param titleResource String resource reference for dialog title
+     * @param msgResource String resource reference for dialog message contents
+     * @param next Reference to Dialog box to be opened next, or null if there is none
+     */
+    private void setupCustomDialog(AlertDialog.Builder builder, View customView, int imgResource,
+                                   int titleResource, int msgResource, final AlertDialog next) {
+        ImageView iv;
+        TextView title;
+        TextView msg;
+        Typeface bebasFont_bold = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf");
+        Typeface bebasFont = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Regular.otf");
+
+        builder.setView(customView);
+
+        // Set next Dialog to be opened upon pressing "next" if there is one
+        if (next != null) {
+            builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    next.show();
+                }
+            });
+        }
+        else {
+            builder.setPositiveButton("Next", null);
+        }
+
+        // Obtain refereces to xml objects
+        iv = (ImageView) customView.findViewById(R.id.tutorial_dialogImg);
+        title = (TextView) customView.findViewById(R.id.tutorial_dialogTitle);
+        msg = (TextView) customView.findViewById(R.id.tutorial_dialogText);
+
+        // Set xml object contents
+        iv.setImageResource(imgResource);
+        title.setText(titleResource);
+        title.setTypeface(bebasFont_bold);
+        msg.setText(msgResource);
+        msg.setTypeface(bebasFont);
+
     }
 }

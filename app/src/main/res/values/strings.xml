@@ -13,4 +13,21 @@
     <string name= "password">Password</string>
     <string name= "dont_have_an_account">Don’t have an account?</string>
 
+    <!-- Tutorial Strings -->
+    <string name= "tutorial_welcomeTitle">Welcome</string>
+    <string name= "tutorial_welcomeMsg">Welcome to the Motive8 app! Using this app you can earn
+        points for going to the gym to use on coupons! Let\'s get started!</string>
+
+    <string name= "tutorial_mapTitle">Maps + Point Earning</string>
+    <string name= "tutorial_mapMsg">On this page google maps will check to see if you\'re in a gym.
+        If you are you\'ll automatically start earning points!</string>
+
+    <string name= "tutorial_couponTitle">Coupons</string>
+    <string name= "tutorial_couponMsg">Visit the coupons page to spend your well earned points on
+        coupons off local stuff!</string>
+
+    <string name= "tutorial_settingTitle">Settings</string>
+    <string name= "tutorial_settingMsg">Visit the settings page to run this tutorial again or adjust
+        user settings.</string>
+
 </resources>
