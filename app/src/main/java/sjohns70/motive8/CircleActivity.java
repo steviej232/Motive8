@@ -24,6 +24,8 @@ import com.roughike.bottombar.BottomBar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import sjohns70.motive8.data.UserData;
+
 /**
  * CircleActivity.java
  *

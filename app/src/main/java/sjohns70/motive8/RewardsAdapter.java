@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.google.android.gms.plus.model.people.Person;
-
 import java.util.ArrayList;
+
+import sjohns70.motive8.data.RewardsData;
 
 /**
  * RewardsAdapter.java
@@ -22,10 +22,13 @@ public class RewardsAdapter extends BaseAdapter{
 
     private final ArrayList<RewardsData> rewards;
     private final Typeface font;
+    private final Typeface pointFont;
 
-    public RewardsAdapter(ArrayList<RewardsData> itemName, Typeface font) {
+    public RewardsAdapter(ArrayList<RewardsData> itemName, Typeface font, Typeface pointFont) {
         this.rewards = itemName;
-        this.font = font;}
+        this.font = font;
+        this.pointFont = pointFont;
+    }
 
     @Override
     public int getCount(){ return rewards.size(); }
@@ -45,13 +48,18 @@ public class RewardsAdapter extends BaseAdapter{
             convertView = inflater.inflate(R.layout.my_rewards, null);
         }
 
+        TextView pointValue = (TextView) convertView.findViewById(R.id.point_value);
         TextView companyName = (TextView) convertView.findViewById(R.id.name2);
         TextView description = (TextView) convertView.findViewById(R.id.description2);
 
+        pointValue.setText(Integer.toString(reward.getValue()) + " points");
         companyName.setText(reward.getName());
         description.setText(reward.getDescription());
 
+        description.setTypeface(font);
         companyName.setTypeface(font);
+        pointValue.setTypeface(pointFont);
+
             return convertView;
 
         };

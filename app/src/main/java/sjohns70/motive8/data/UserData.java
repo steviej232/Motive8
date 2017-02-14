@@ -1,6 +1,6 @@
 /* Copyright statement */
 
-package sjohns70.motive8;
+package sjohns70.motive8.data;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

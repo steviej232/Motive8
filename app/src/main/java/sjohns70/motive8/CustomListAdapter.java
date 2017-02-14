@@ -12,6 +12,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import sjohns70.motive8.data.BusinessData;
+
 /**
  * CustomListAdapter.java
  *
@@ -45,14 +47,17 @@ public class CustomListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.mylist, null);
         }
 
+        char letter = bus.getCompany_name().charAt(0);
         ImageView image = (ImageView) convertView.findViewById(R.id.icon);
+        CharacterDrawable drawable = new CharacterDrawable(letter, 0xAAFFA03E);
+        image.setBackground(drawable);
 
         Resources res = parent.getResources();
-        String mDrawableName = bus.getLogo();
-        int resID = res.getIdentifier(mDrawableName , "drawable", parent.getContext().getPackageName());
-        if(resID !=  0) {
-            image.setImageResource(resID);
-        }
+//        String mDrawableName = bus.getLogo();
+//        int resID = res.getIdentifier(mDrawableName , "drawable", parent.getContext().getPackageName());
+//        if(resID !=  0) {
+            //image.setImageResource(resID);
+//        }
 
         return convertView;
 

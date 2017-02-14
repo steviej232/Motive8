@@ -7,11 +7,9 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
@@ -23,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import sjohns70.motive8.data.BusinessData;
+import sjohns70.motive8.data.UserData;
 
 /**
  * CompanyListActivity.java

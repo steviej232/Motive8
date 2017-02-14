@@ -2,26 +2,41 @@
 
 package sjohns70.motive8;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.plus.model.people.Person;
+import android.support.v4.app.FragmentActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.ResultCallbacks;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.drive.Drive;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.Places;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +45,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.Locale;
+
+import sjohns70.motive8.data.BusinessData;
+import sjohns70.motive8.data.RewardsData;
+import sjohns70.motive8.data.UserData;
 
 /**
  * CompanyProfileActivity.java
@@ -37,7 +57,8 @@ import java.util.ArrayList;
  * This activity is used to display a company's profile and available coupons. Users should
  * be able to purchasee coupons with their points from this activity.
  */
-public class CompanyProfileActivity extends AppCompatActivity {
+public class CompanyProfileActivity extends FragmentActivity
+        implements OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     private ArrayList<RewardsData> rewards;
     private RewardsAdapter adapter;
     private int points;
@@ -48,41 +69,58 @@ public class CompanyProfileActivity extends AppCompatActivity {
     private DatabaseReference myUserRef;
     private BusinessData business;
     private UserData userData;
+    private GoogleApiClient mGoogleApiClient;
 
     private TextView name;
+    private TextView phone;
+    private TextView location;
     private ListView list;
-    private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_company_profile);
+        setContentView(R.layout.company_profile);
         name = (TextView) findViewById(R.id.companyName);
         list = (ListView) findViewById(R.id.rewardsList);
-        image = (ImageView) findViewById(R.id.logoCompanyProfile);
+        phone = (TextView) findViewById(R.id.business_phone);
+        location = (TextView) findViewById(R.id.business_location);
+
+
         FirebaseApp.initializeApp(getApplicationContext());
         database = FirebaseDatabase.getInstance();
         business = (BusinessData) getIntent().getSerializableExtra("Business");
         rewards = new ArrayList<RewardsData>();
 
-        setFonts();
+         mGoogleApiClient = new GoogleApiClient.Builder(this)
+                 .addApi(Places.GEO_DATA_API)
+                 .addApi(Places.PLACE_DETECTION_API)
+                 .enableAutoManage(this, 0, this)
+                 .addConnectionCallbacks(this)
+                 .addOnConnectionFailedListener( this )
+                 .build();
 
+        setFonts();
         getPoints();
 
         if (business.getCompany_name() != null) {
             name.setText(business.getCompany_name());
             getRewards(business.getId());
 
-            Resources res = getResources();
-            String mDrawableName = business.getLogo();
-            int resID = res.getIdentifier(mDrawableName , "drawable", getPackageName());
-            image.setImageResource(resID);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                phone.setText("Phone " + PhoneNumberUtils.formatNumber(business.getPhone(), Locale.getDefault().getCountry()));
+            }
+            else {
+                phone.setText("Phone " + PhoneNumberUtils.formatNumber(business.getPhone())); //Deprecated method
+            }
+            
         }
 
-        adapter = new RewardsAdapter(rewards, Typeface.createFromAsset(
-                getAssets(), "fonts/Montserrat-Light.otf"));
+        adapter = new RewardsAdapter(
+                rewards,
+                Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Regular.otf"),
+                Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf"));
 
         list.setAdapter(adapter);
 
@@ -182,7 +220,7 @@ public class CompanyProfileActivity extends AppCompatActivity {
     */
     private void setFonts(){
         Typeface custom_font = Typeface
-                .createFromAsset(getAssets(),  "fonts/Montserrat-Bold.otf");
+                .createFromAsset(getAssets(),  "fonts/BebasNeue Bold.otf");
         name.setTypeface(custom_font);
     }
 
@@ -209,5 +247,63 @@ public class CompanyProfileActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
+    private void GoogleInformation() {
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
+            return;
+        }
+        System.out.println("OUT here " + business.getPlaceId());
+
+        PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, business.getPlaceId());
+        placeResult.setResultCallback( new ResultCallback<PlaceBuffer>() {
+            @Override
+            public void onResult(PlaceBuffer places) {
+                if (places.getStatus().isSuccess() && places.getCount() > 0) {
+                    System.out.println("places found");
+                    final Place myPlace = places.get(0);
+                    location.setText(myPlace.getAddress());
+                    myPlace.getRating();
+                    myPlace.getPriceLevel();
+
+                } else {
+                    System.out.println("Place not found");
+                }
+                places.release();
+            }
+        });
+    }
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        System.out.println("connection failed");
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if( mGoogleApiClient != null ){
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        if( mGoogleApiClient != null && mGoogleApiClient.isConnected() ) {
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        System.out.println("connected");
+        GoogleInformation();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        System.out.println("Not connected");
+    }
 }
 

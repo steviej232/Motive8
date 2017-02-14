@@ -1,6 +1,8 @@
-/* Copyright statement */
+package sjohns70.motive8.data;
 
-package sjohns70.motive8;
+/**
+ * Created by KendallGassner on 2/7/17.
+ */
 
 /**
  * RewardsData.java

@@ -1,6 +1,6 @@
 /* Copyright statement */
 
-package sjohns70.motive8;
+package sjohns70.motive8.data;
 
 import java.io.Serializable;
 
@@ -16,14 +16,17 @@ public class BusinessData implements Serializable {
     private String company_name;
     private String logo;
     private String id;
+    private String phone;
+    private String placeId;
 
     public BusinessData() {}
 
-    public BusinessData(String descript, String name, String image, String uniqueId) {
+    public BusinessData(String descript, String name, String image, String uniqueId, String pho) {
         description = descript;
         company_name = name;
         logo = image;
         id = uniqueId;
+        phone = pho;
     }
 
     public String getLogo() {
@@ -58,4 +61,15 @@ public class BusinessData implements Serializable {
         this.company_name = company_name;
     }
 
+    public String getPhone(){ return phone;}
+
+    public void setPhone(String p){ phone = p;}
+
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
 }

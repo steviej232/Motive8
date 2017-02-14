@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:id="@+id/companyName"
+                android:textColor="@color/font"
+                android:layout_marginTop="@dimen/activity_title_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:textSize="@dimen/name_font_size"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/business_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="150dp"
+                    android:text="Location"
+                    android:textSize="@dimen/mini_text_font_size"
+                    android:textColor="@color/font"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="50dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin" />
+                <TextView
+                    android:id="@+id/business_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone"
+                    android:textSize="@dimen/mini_text_font_size"
+                    android:textColor="@color/font"/>
+
+            </LinearLayout>
+
+        <ListView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/rewardsList"
+            android:layout_gravity="bottom"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:dividerHeight="@dimen/activity_vertical_margin"
+            android:divider="#00000000" />
+</LinearLayout>
+
+
