@@ -265,7 +265,6 @@ public class CompanyProfileActivity extends FragmentActivity
                     phone.setText("Phone " + myPlace.getPhoneNumber());
                     rating.setText(Float.toString( myPlace.getRating()) + " Stars");
                     ratingBar.setRating(myPlace.getRating());
-                    myPlace.getWebsiteUri();
 
                 } else {
                     System.out.println("Place not found");
