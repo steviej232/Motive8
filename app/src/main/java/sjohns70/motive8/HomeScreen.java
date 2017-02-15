@@ -4,21 +4,16 @@ package sjohns70.motive8;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.ImageView;
-import android.app.Dialog;
+import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,12 +32,14 @@ public class HomeScreen extends AppCompatActivity  {
     private android.support.design.widget.CoordinatorLayout coordinatorLayout;
     private String TAG ="sjohns70";
     private BottomBar bottomBar;
+    private static int firstRun = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
         setupTitle();
+
 
         // Initialize Firebase Auth
         FirebaseApp.initializeApp(getApplicationContext());
@@ -62,7 +59,13 @@ public class HomeScreen extends AppCompatActivity  {
         bottomBar = bottomBarActivity.createBottomBar(this,savedInstanceState,HomeScreen.this,0);
 
         // Check if this is the first time the app has been run
-        checkFirstRun();
+        //checkFirstRun();
+        if(firstRun == 0) {
+            runTutorial();
+            firstRun++;
+        }
+        //Pop up to rate app
+        AppRater.app_launched(this);
     }
 
     /**
@@ -76,43 +79,6 @@ public class HomeScreen extends AppCompatActivity  {
         title.setText(Html.fromHtml(titleText));
         title.setTypeface(bebasFont);
         title.setTextSize(100);
-    }
-
-    /**
-     * This method uses shared preferences to save the current app version-code. It will check if
-     * this startup of the app is the first launch after installation, first launch after updating,
-     * or just a normal run.
-     */
-    private void checkFirstRun() {
-        final String PREFS_NAME = "Motive8PrefsFile";
-        final String PREF_VERSION_CODE_KEY = "version_code";
-        final int DOESNT_EXIST = -1;
-
-        // Get current version code (pulls from build.gradle file)
-        int currentVersionCode = BuildConfig.VERSION_CODE;
-
-        // Get saved version code from shared preferences
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
-
-        // Compare current and saved version codes to determine run type
-        if (currentVersionCode == savedVersionCode) {
-            // Normal run
-            runTutorial();
-            return;
-        }
-        else if (savedVersionCode == DOESNT_EXIST) {
-            // First run
-            runTutorial();
-        }
-        else if (currentVersionCode > savedVersionCode) {
-            // First run since update
-            runTutorial();
-        }
-
-        // Update shared preferences with current version code
-        // Invoking edit() will create prefereces file if one doesn't already exist
-        prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).apply();
     }
 
     /**
@@ -201,4 +167,5 @@ public class HomeScreen extends AppCompatActivity  {
         msg.setTypeface(bebasFont);
 
     }
+
 }

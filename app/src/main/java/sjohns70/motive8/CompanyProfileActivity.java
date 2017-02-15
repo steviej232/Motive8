@@ -2,38 +2,29 @@
 
 package sjohns70.motive8;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.provider.Settings;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.ResultCallbacks;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.drive.Drive;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
@@ -44,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -254,23 +246,23 @@ public class CompanyProfileActivity extends FragmentActivity
         }
         System.out.println("OUT here " + business.getPlaceId());
 
-        PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, business.getPlaceId());
-        placeResult.setResultCallback( new ResultCallback<PlaceBuffer>() {
-            @Override
-            public void onResult(PlaceBuffer places) {
-                if (places.getStatus().isSuccess() && places.getCount() > 0) {
-                    System.out.println("places found");
-                    final Place myPlace = places.get(0);
-                    location.setText(myPlace.getAddress());
-                    myPlace.getRating();
-                    myPlace.getPriceLevel();
+            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, business.getPlaceId());
+            placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
+                @Override
+                public void onResult(PlaceBuffer places) {
+                    if (places.getStatus().isSuccess() && places.getCount() > 0) {
+                        System.out.println("places found");
+                        final Place myPlace = places.get(0);
+                        location.setText(myPlace.getAddress());
+                        myPlace.getRating();
+                        myPlace.getPriceLevel();
 
-                } else {
-                    System.out.println("Place not found");
+                    } else {
+                        System.out.println("Place not found");
+                    }
+                    places.release();
                 }
-                places.release();
-            }
-        });
+            });
     }
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

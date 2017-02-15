@@ -30,9 +30,13 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import sjohns70.motive8.data.UserData;
 
 /**
  * Login.java
@@ -53,13 +57,14 @@ public class Login extends AppCompatActivity  {
     public CallbackManager callbackManager;
 
     private String TAG = "login: ";
+    private FirebaseDatabase database;
+    private UserData userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.login);
-        initFacebook();
 
         login_email = (EditText) findViewById(R.id.login_email);
         login_password = (EditText) findViewById(R.id.login_password);
@@ -68,24 +73,25 @@ public class Login extends AppCompatActivity  {
         login_submit = (Button) findViewById(R.id.submit_login);
 
         setupFont();
+        //getUser();
+        initFacebook();
 
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
-
-
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Intent home = new Intent(Login.this, HomeScreen.class);
-                    startActivity(home);
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
+//        mAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if (user != null) {
+//                    Toast.makeText(Login.this, "test:"+user,
+//                            Toast.LENGTH_SHORT).show();
+//                    Intent home = new Intent(Login.this, HomeScreen.class);
+//                    //startActivity(home);
+//                } else {
+//                    Log.d(TAG, "onAuthStateChanged:signed_out");
+//                }
+//            }
+//        };
 
         login_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +114,7 @@ public class Login extends AppCompatActivity  {
     @Override
     public void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+       // mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -156,6 +162,8 @@ public class Login extends AppCompatActivity  {
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithCredential", task.getException());
+                            Toast.makeText(Login.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -165,12 +173,15 @@ public class Login extends AppCompatActivity  {
         AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
         facebookLoginButton = (LoginButton) findViewById(R.id.login_button);
-        facebookLoginButton.setReadPermissions("email", "public_profile","user_friends");
+        facebookLoginButton.setReadPermissions("email", "public_profile","user_friends","publish_actions");
         facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                AccessToken accessToken =  loginResult.getAccessToken();
                 handleFacebookAccessToken(loginResult.getAccessToken());
+                //Toast.makeText(getApplicationContext(),"userid:"+loginResult.getAccessToken().getUserId(),Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(Login.this, HomeScreen.class);
+//                myIntent.putExtra("accesstoken",accessToken);
                 startActivity(myIntent);
             }
             @Override
@@ -214,6 +225,35 @@ public class Login extends AppCompatActivity  {
         login_password.setTypeface(bebasFont);
         login_submit.setTypeface(bebasFont_bold);
         title.setTextSize(100);
+    }
+
+    public void getUser(){
+        FirebaseApp.initializeApp(getApplicationContext());
+        mAuth = FirebaseAuth.getInstance();
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("USERS");
+
+        if(mAuth.getCurrentUser() == null){
+        myRef.child(mAuth.getCurrentUser().getUid()).child("points_earned").setValue(0);
+        myRef.child(mAuth.getCurrentUser().getUid()).child("count_remainder").setValue(0);
+        myRef.child(mAuth.getCurrentUser().getUid()).child("email").setValue(
+                    mAuth.getCurrentUser().getEmail().toString());
+        }
+        else
+            Toast.makeText(getApplicationContext(),""+mAuth,Toast.LENGTH_SHORT).show();
+        userData = new UserData();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userData = dataSnapshot.getValue(UserData.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // ...
+            }
+        });
     }
 
 }

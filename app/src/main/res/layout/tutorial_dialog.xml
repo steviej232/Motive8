@@ -11,20 +11,20 @@
 
         <ImageView
             android:id="@+id/tutorial_dialogImg"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:scaleType="center" />
+            />
 
         <TextView
             android:id="@+id/tutorial_dialogTitle"
             android:background="#FFA03E"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginLeft="45dp"
+            android:layout_marginLeft="40dp"
             android:layout_toRightOf="@+id/tutorial_dialogImg"
             android:textColor="@color/White"
-            android:textSize="45sp"/>
+            android:textSize="33sp"/>
 
     </RelativeLayout>
 
@@ -36,6 +36,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:textAlignment="center"
-        android:textSize="30sp"/>
+        android:textSize="23sp"/>
 
 </LinearLayout>

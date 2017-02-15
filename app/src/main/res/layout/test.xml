@@ -60,6 +60,18 @@
         android:id="@+id/share"
         android:text="Share with friends!"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/leaderboard2"
+        android:text="App 42 Leaderboard"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timer"
+        android:text="timer"/>
+
 
 
 </LinearLayout>

@@ -30,4 +30,7 @@
     <string name= "tutorial_settingMsg">Visit the settings page to run this tutorial again or adjust
         user settings.</string>
 
+    <string name="refresh_maps_string">You are not located inside a valid gym.  Please use the orange markers on the map to locate a nearby gym to begin earning points!</string>
+    <string name="refresh_maps_string_title">Not in a Gym</string>
+
 </resources>

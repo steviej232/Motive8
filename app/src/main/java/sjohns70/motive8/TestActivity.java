@@ -58,6 +58,8 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
         Button button = (Button)findViewById(R.id.Leaderboard);
         Button button2 = (Button)findViewById(R.id.submit_score);
         Button button3 = (Button)findViewById(R.id.share);
+        Button button4 = (Button)findViewById(R.id.leaderboard2);
+        Button button5 = (Button)findViewById(R.id.timer);
         setupLogo();
 
         FirebaseApp.initializeApp(getApplicationContext());
@@ -117,10 +119,30 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
                 }
             }
         });
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(TestActivity.this, App42Leaderboard.class);
+                startActivity(myIntent);
+            }
+        });
+
+//        button5.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent myIntent = new Intent(TestActivity.this, TimerService.class);
+//                startActivity(myIntent);
+//            }
+//        });
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBarActivity.createBottomBar(this,savedInstanceState,TestActivity.this,3);
 
+
+
+
     }
+
+
 
     private void setupLogo(){
         logo = (TextView)findViewById(R.id.logo);
@@ -181,4 +203,6 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
     public void onSignInSucceeded() {
 
     }
+
+
 }
