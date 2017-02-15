@@ -8,18 +8,19 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import android.support.v4.app.FragmentActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
@@ -35,7 +36,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -65,8 +65,10 @@ public class CompanyProfileActivity extends FragmentActivity
 
     private TextView name;
     private TextView phone;
+    private TextView rating;
     private TextView location;
     private ListView list;
+    private RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class CompanyProfileActivity extends FragmentActivity
         list = (ListView) findViewById(R.id.rewardsList);
         phone = (TextView) findViewById(R.id.business_phone);
         location = (TextView) findViewById(R.id.business_location);
+        rating = (TextView) findViewById(R.id.business_rating);
+        ratingBar = (RatingBar) findViewById(R.id.business_ratingBar);
 
 
         FirebaseApp.initializeApp(getApplicationContext());
@@ -246,23 +250,28 @@ public class CompanyProfileActivity extends FragmentActivity
         }
         System.out.println("OUT here " + business.getPlaceId());
 
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, business.getPlaceId());
-            placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
-                @Override
-                public void onResult(PlaceBuffer places) {
-                    if (places.getStatus().isSuccess() && places.getCount() > 0) {
-                        System.out.println("places found");
-                        final Place myPlace = places.get(0);
-                        location.setText(myPlace.getAddress());
-                        myPlace.getRating();
-                        myPlace.getPriceLevel();
+        if (business.getPlaceId().length() < 1 ) {
+            return;
+        }
 
-                    } else {
-                        System.out.println("Place not found");
-                    }
-                    places.release();
+        PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mGoogleApiClient, business.getPlaceId());
+        placeResult.setResultCallback( new ResultCallback<PlaceBuffer>() {
+            @Override
+            public void onResult(PlaceBuffer places) {
+                if (places.getStatus().isSuccess() && places.getCount() > 0) {
+                    System.out.println("places found");
+                    final Place myPlace = places.get(0);
+                    location.setText(myPlace.getAddress());
+                    phone.setText("Phone " + myPlace.getPhoneNumber());
+                    rating.setText(Float.toString( myPlace.getRating()) + " Stars");
+                    ratingBar.setRating(myPlace.getRating());
+
+                } else {
+                    System.out.println("Place not found");
                 }
-            });
+                places.release();
+            }
+        });
     }
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
