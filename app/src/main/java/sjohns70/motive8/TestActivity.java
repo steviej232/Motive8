@@ -86,12 +86,14 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
 
-        mGoogleApiClient = getApiClient();
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(getApiClient()),1);
-                Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.Leaderboard_points_earned), userData.getPoints_earned());
+                if(getApiClient().isConnected()) {
+                    startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(getApiClient()), 1);
+                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.leaderboard_total_points_earned), userData.getPoints_earned());
+                }
             }
         });
 
@@ -99,7 +101,7 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
             @Override
             public void onClick(View view) {
                 if (getApiClient().isConnected()) {
-                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.Leaderboard_points_earned), 2);
+                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.leaderboard_total_points_earned), 2);
                 }
             }
         });
@@ -117,13 +119,6 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
                 } catch(Exception e) {
                     //e.toString();
                 }
-            }
-        });
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(TestActivity.this, App42Leaderboard.class);
-                startActivity(myIntent);
             }
         });
 

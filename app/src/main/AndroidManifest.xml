@@ -5,6 +5,7 @@
 
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -43,6 +44,20 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCOiSGVazjOhwUPL5K6zXVyOTYhRblp2kQ" />
 
+        <service
+            android:name=".FirebaseMsgService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".FirebaseInstIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"
@@ -51,9 +66,6 @@
         </activity>
         <activity
             android:name=".TestActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".App42Leaderboard"
             android:screenOrientation="portrait"/>
 
         <service android:name=".TimerService" />

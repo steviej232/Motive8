@@ -20,7 +20,11 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +34,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -73,25 +78,20 @@ public class Login extends AppCompatActivity  {
         login_submit = (Button) findViewById(R.id.submit_login);
 
         setupFont();
-        //getUser();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Intent myIntent = new Intent(Login.this, TestActivity.class);
+                     startActivity(myIntent);
+                }
+            }
+        };
         initFacebook();
 
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
-//        mAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser user = firebaseAuth.getCurrentUser();
-//                if (user != null) {
-//                    Toast.makeText(Login.this, "test:"+user,
-//                            Toast.LENGTH_SHORT).show();
-//                    Intent home = new Intent(Login.this, HomeScreen.class);
-//                    //startActivity(home);
-//                } else {
-//                    Log.d(TAG, "onAuthStateChanged:signed_out");
-//                }
-//            }
-//        };
 
         login_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +100,6 @@ public class Login extends AppCompatActivity  {
 
             }
         });
-
         login_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +113,6 @@ public class Login extends AppCompatActivity  {
     @Override
     public void onStart() {
         super.onStart();
-       // mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -177,7 +175,7 @@ public class Login extends AppCompatActivity  {
         facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                AccessToken accessToken =  loginResult.getAccessToken();
+                //AccessToken accessToken =  loginResult.getAccessToken();
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 //Toast.makeText(getApplicationContext(),"userid:"+loginResult.getAccessToken().getUserId(),Toast.LENGTH_SHORT).show();
                 Intent myIntent = new Intent(Login.this, HomeScreen.class);
@@ -196,11 +194,30 @@ public class Login extends AppCompatActivity  {
         facebookLoginButton.setReadPermissions("user_friends");
     }
 
+    private void FacebookSignOut() {
+        if (AccessToken.getCurrentAccessToken() == null) {
+            return; // already logged out
+        } else {
+            new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
+                    .Callback() {
+                @Override
+                public void onCompleted(GraphResponse graphResponse) {
+
+                    LoginManager.getInstance().logOut();
+
+                }
+            }).executeAsync();
+        }
+    }
+
+
+    // [START onactivityresult]
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
 
     public boolean isLoggedIn() {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -255,5 +272,7 @@ public class Login extends AppCompatActivity  {
             }
         });
     }
+
+
 
 }
