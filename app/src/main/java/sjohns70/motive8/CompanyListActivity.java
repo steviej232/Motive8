@@ -3,9 +3,13 @@
 package sjohns70.motive8;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
 
@@ -36,15 +41,17 @@ public class CompanyListActivity extends Activity{
     private DatabaseReference myRef;
     private FirebaseDatabase database;
     private FirebaseAuth mAuth;
+    private ViewPager viewPager;
 
     private TextView logo;
     private UserData userData;
+    private Context context;
     GridView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        context = this;
 
         setContentView(R.layout.company_list);
         list = (GridView) findViewById(R.id.list);
@@ -118,6 +125,15 @@ public class CompanyListActivity extends Activity{
                     businesses.add(bus);
                 }
                 adapter.notifyDataSetChanged();
+                viewPager = (ViewPager) findViewById(R.id.pager);
+
+                System.out.println("SIZE" + businesses.size());
+                viewPager.setAdapter(new CompanyPageAdapter(context, businesses));
+                viewPager.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+
+                CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
+                indicator.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                indicator.setViewPager(viewPager);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
