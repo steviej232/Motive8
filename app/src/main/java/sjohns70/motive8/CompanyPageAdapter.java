@@ -32,9 +32,11 @@ public class CompanyPageAdapter extends PagerAdapter  {
 
         ViewGroup layout = (ViewGroup) inflater.inflate(R.layout.my_pager_list, collection, false);
         TextView name = (TextView) layout.findViewById(R.id.pager_business_name);
+        TextView description = (TextView) layout.findViewById(R.id.pager_business_name);
         if(bussineses.size() > position) {
             BusinessData business = bussineses.get(position);
             name.setText(business.getCompany_name());
+            description.setText(business.getDescription());
             setFonts(name);
         }
         collection.addView(layout);
