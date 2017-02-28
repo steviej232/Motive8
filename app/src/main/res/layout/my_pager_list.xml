@@ -12,11 +12,12 @@
         android:textColor="@color/white"
         android:textSize="@dimen/button_font_size"
         android:textAlignment="center"/>
+
     <TextView
         android:text="Business Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/pager_business_name"
+        android:id="@+id/pager_description"
         android:textColor="@color/white"
         android:textSize="@dimen/button_font_size"
         android:textAlignment="center"/>
