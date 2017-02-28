@@ -3,6 +3,7 @@
 package sjohns70.motive8;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +28,10 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -35,11 +40,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import sjohns70.motive8.data.UserData;
 
@@ -48,7 +50,7 @@ import sjohns70.motive8.data.UserData;
  *
  * This class handles the user login process, authenticating user credentials.
  */
-public class Login extends AppCompatActivity  {
+public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     public LoginButton facebookLoginButton;
     private EditText login_email;
@@ -64,6 +66,9 @@ public class Login extends AppCompatActivity  {
     private String TAG = "login: ";
     private FirebaseDatabase database;
     private UserData userData;
+    private int RC_SIGN_IN = 1;
+    public GoogleApiClient mGoogleApiClient;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,21 +82,30 @@ public class Login extends AppCompatActivity  {
         login_sign_up_text =(TextView) findViewById(R.id.sign_up_text);
         login_submit = (Button) findViewById(R.id.submit_login);
 
+//        String UID = "";
+//        if(pref != null) {
+//            pref.getString("user_hashcode", UID);
+//            if (UID != "") {
+//                Intent myIntent = new Intent(Login.this, HomeScreen.class);
+//                startActivity(myIntent);
+//            }
+//        }
+
         setupFont();
+
+        FirebaseApp.initializeApp(getApplicationContext());
+        mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Intent myIntent = new Intent(Login.this, TestActivity.class);
-                     startActivity(myIntent);
+                    Intent myIntent = new Intent(Login.this, CompanyListActivity.class);
+                    startActivity(myIntent);
                 }
             }
         };
         initFacebook();
-
-        FirebaseApp.initializeApp(getApplicationContext());
-        mAuth = FirebaseAuth.getInstance();
 
         login_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,11 +122,17 @@ public class Login extends AppCompatActivity  {
             }
         });
 
+//        if(isLoggedIn()){
+//            Intent home = new Intent(Login.this, HomeScreen.class);
+//            startActivity(home);
+//        }
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -131,6 +151,12 @@ public class Login extends AppCompatActivity  {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+                    SharedPreferences.Editor editor = pref.edit();
+                    //on the login store the login
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    editor.putString("user_hascode", user.getUid());
+                    editor.commit();
                     Intent home = new Intent(Login.this, HomeScreen.class);
                     startActivity(home);
                 }
@@ -211,12 +237,25 @@ public class Login extends AppCompatActivity  {
     }
 
 
-    // [START onactivityresult]
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
     }
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            Intent myIntent = new Intent(Login.this, HomeScreen.class);
+            startActivity(myIntent);
+        }
+    }
+
 
 
     public boolean isLoggedIn() {
@@ -244,35 +283,10 @@ public class Login extends AppCompatActivity  {
         title.setTextSize(100);
     }
 
-    public void getUser(){
-        FirebaseApp.initializeApp(getApplicationContext());
-        mAuth = FirebaseAuth.getInstance();
 
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("USERS");
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-        if(mAuth.getCurrentUser() == null){
-        myRef.child(mAuth.getCurrentUser().getUid()).child("points_earned").setValue(0);
-        myRef.child(mAuth.getCurrentUser().getUid()).child("count_remainder").setValue(0);
-        myRef.child(mAuth.getCurrentUser().getUid()).child("email").setValue(
-                    mAuth.getCurrentUser().getEmail().toString());
-        }
-        else
-            Toast.makeText(getApplicationContext(),""+mAuth,Toast.LENGTH_SHORT).show();
-        userData = new UserData();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userData = dataSnapshot.getValue(UserData.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // ...
-            }
-        });
     }
-
-
 
 }

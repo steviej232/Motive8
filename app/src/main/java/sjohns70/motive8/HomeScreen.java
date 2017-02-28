@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.roughike.bottombar.BottomBar;
 
 /**
@@ -26,23 +26,16 @@ import com.roughike.bottombar.BottomBar;
  * is being run.
  */
 public class HomeScreen extends AppCompatActivity  {
-    public Button settings;
-    public Button c_list;
-    public Button circle_fill;
-    private android.support.design.widget.CoordinatorLayout coordinatorLayout;
-    private String TAG ="sjohns70";
+
     private BottomBar bottomBar;
     private static int firstRun = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
         setupTitle();
-
-
-        // Initialize Firebase Auth
-        FirebaseApp.initializeApp(getApplicationContext());
 
         Button signOut = (Button) findViewById(R.id.sign_out);
         signOut.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +59,11 @@ public class HomeScreen extends AppCompatActivity  {
         }
         //Pop up to rate app
         AppRater.app_launched(this);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+       // Toast.makeText(this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
+
     }
+
 
     /**
      * This method sets up the "MOTIV8" title for the home screen.

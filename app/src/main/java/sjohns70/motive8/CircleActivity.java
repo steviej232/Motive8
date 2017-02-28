@@ -13,7 +13,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,8 +29,6 @@ import com.roughike.bottombar.BottomBar;
 import java.util.Timer;
 
 import sjohns70.motive8.data.UserData;
-
-import static com.facebook.login.widget.ProfilePictureView.TAG;
 
 /**
  * CircleActivity.java
@@ -148,7 +145,6 @@ public class CircleActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("USERS").child(mAuth.getCurrentUser().getUid());
-        //Toast.makeText(getApplicationContext(),""+myRef,Toast.LENGTH_SHORT).show();
         userData = new UserData();
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -172,7 +168,6 @@ public class CircleActivity extends Activity {
             _count = 0;
             userData.setPoints_earned(++points);
         }
-        Log.d(TAG, "incrementCount: "+_count);
         progress_heart.getBackground().setLevel(_count*100);
         userData.setCount_remainder(_count);
         myRef.setValue(userData);

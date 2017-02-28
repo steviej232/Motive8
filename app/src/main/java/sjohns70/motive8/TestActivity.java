@@ -9,8 +9,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,22 +49,23 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
     private UserData userData;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
+    private TextView leaderboard;
+    private TextView share;
+    private Typeface bebasFont;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
 
-        Button button = (Button)findViewById(R.id.Leaderboard);
-        Button button2 = (Button)findViewById(R.id.submit_score);
-        Button button3 = (Button)findViewById(R.id.share);
-        Button button4 = (Button)findViewById(R.id.leaderboard2);
-        Button button5 = (Button)findViewById(R.id.timer);
+        leaderboard = (TextView)findViewById(R.id.Leaderboard);
+        share = (TextView)findViewById(R.id.share);
         setupLogo();
+        share.setTypeface(bebasFont);
+        leaderboard.setTypeface(bebasFont);
 
         FirebaseApp.initializeApp(getApplicationContext());
         database = FirebaseDatabase.getInstance();
-
         getPoints();
 
 
@@ -86,26 +87,23 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
                 .build();
 
+        mGoogleApiClient.connect();
 
-        button.setOnClickListener(new View.OnClickListener() {
+        leaderboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(getApiClient().isConnected()) {
                     startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(getApiClient()), 1);
                     Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.leaderboard_total_points_earned), userData.getPoints_earned());
                 }
-            }
-        });
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getApiClient().isConnected()) {
-                    Games.Leaderboards.submitScore(mGoogleApiClient, getString(R.string.leaderboard_total_points_earned), 2);
+                else{
+                    Toast.makeText(getApplicationContext(), "Not Connected to Google Play Games please try again", Toast.LENGTH_SHORT).show();
+                    mGoogleApiClient.connect();
                 }
             }
         });
-        button3.setOnClickListener(new View.OnClickListener() {
+
+        share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
@@ -122,18 +120,8 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
             }
         });
 
-//        button5.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent myIntent = new Intent(TestActivity.this, TimerService.class);
-//                startActivity(myIntent);
-//            }
-//        });
         BottomBarActivity bottomBarActivity = new BottomBarActivity();
         bottomBarActivity.createBottomBar(this,savedInstanceState,TestActivity.this,3);
-
-
-
 
     }
 
@@ -150,7 +138,7 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
         });
         TextView title = (TextView)findViewById(R.id.Title);
         String titleText = "<font color=#404040>Motiv</font><font color=#FFA03E>8</font>";
-        Typeface bebasFont = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf");
+        bebasFont = Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf");
 
         title.setText(Html.fromHtml(titleText));
         title.setTypeface(bebasFont);

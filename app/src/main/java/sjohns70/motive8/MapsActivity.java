@@ -66,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String TAG = MapsActivity.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    public static final int CIRCLE_RADIUS = 200;
+    public static final int CIRCLE_RADIUS = 193;
     private BottomBar bottomBar;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
