@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\0\Apps\Motive8\viewPager\src\main\assets"/><source path="C:\0\Apps\Motive8\viewPager\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="C:\0\Apps\Motive8\viewPager\src\release\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/home/zachho/AndroidStudioProjects/Motive8/viewPager/src/main/assets"/><source path="/home/zachho/AndroidStudioProjects/Motive8/viewPager/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/home/zachho/AndroidStudioProjects/Motive8/viewPager/src/release/assets"/></dataSet></merger>

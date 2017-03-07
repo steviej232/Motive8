@@ -94,4 +94,23 @@
             android:textSize="@dimen/text_font_size"
             android:text="@string/sign_up" />
     </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/forgot_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:textAppearance="@id/underline"
+            android:textColor="@color/font"
+            android:textSize="20dp"
+            android:text="Forgot Password?" />
+
+    </LinearLayout>
 </LinearLayout>
