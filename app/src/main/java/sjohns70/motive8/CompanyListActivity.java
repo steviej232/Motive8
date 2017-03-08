@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.View;
@@ -150,7 +148,7 @@ public class CompanyListActivity extends Activity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userData = dataSnapshot.getValue(UserData.class);
-                logo.setText("" + userData.getPoints_earned());
+                    logo.setText("" + userData.getPoints_earned());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

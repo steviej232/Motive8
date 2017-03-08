@@ -44,6 +44,7 @@ public class HomeScreen extends AppCompatActivity  {
                 FirebaseAuth.getInstance().signOut();
                 Intent logIn = new Intent(HomeScreen.this, Login.class);
                 startActivity(logIn);
+
             }
         });
 
@@ -60,7 +61,6 @@ public class HomeScreen extends AppCompatActivity  {
         //Pop up to rate app
         AppRater.app_launched(this);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-       // Toast.makeText(this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
 
     }
 

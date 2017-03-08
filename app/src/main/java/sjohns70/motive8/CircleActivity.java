@@ -51,8 +51,8 @@ public class CircleActivity extends Activity {
     private double curLatitude;
     private double gym_latitude;
     private double gym_longitude;
-    private Intent timerIntent;
-    private Intent locationIntent;
+    public static Intent timerIntent;
+    public static Intent locationIntent;
 
     private LocationManager mLocationManager;
 
@@ -87,7 +87,6 @@ public class CircleActivity extends Activity {
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 broadcastReceiver, new IntentFilter("CurrentLocation"));
 
-        //Toast.makeText(getApplicationContext(),""+_count,Toast.LENGTH_SHORT).show();
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -144,6 +143,7 @@ public class CircleActivity extends Activity {
         FirebaseApp.initializeApp(getApplicationContext());
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+
         myRef = database.getReference("USERS").child(mAuth.getCurrentUser().getUid());
         userData = new UserData();
         myRef.addValueEventListener(new ValueEventListener() {

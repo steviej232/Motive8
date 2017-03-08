@@ -1,26 +1,50 @@
 [
     {
-        "merged": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/vpi__tab_selected_pressed_holo.9.png",
-        "source": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/vpi__tab_selected_pressed_holo.9.png"
+        "merged": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_selected_holo.9.png",
+        "source": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_selected_holo.9.png"
     },
     {
-        "merged": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/vpi__tab_unselected_focused_holo.9.png",
-        "source": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/vpi__tab_unselected_focused_holo.9.png"
+        "merged": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_unselected_holo.9.png",
+        "source": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_unselected_holo.9.png"
     },
     {
-        "merged": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/vpi__tab_unselected_holo.9.png",
-        "source": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/vpi__tab_unselected_holo.9.png"
+        "merged": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_selected_holo.9.png",
+        "source": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_selected_holo.9.png"
     },
     {
-        "merged": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/vpi__tab_selected_holo.9.png",
-        "source": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/vpi__tab_selected_holo.9.png"
+        "merged": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
+        "source": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_selected_pressed_holo.9.png"
     },
     {
-        "merged": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/vpi__tab_unselected_pressed_holo.9.png",
-        "source": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/vpi__tab_unselected_pressed_holo.9.png"
+        "merged": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
+        "source": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_unselected_pressed_holo.9.png"
     },
     {
-        "merged": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4/vpi__tab_selected_focused_holo.9.png",
-        "source": "/Users/KendallGassner/AndroidStudioProjects/Motive8/viewPager/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/vpi__tab_selected_focused_holo.9.png"
+        "merged": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_unselected_holo.9.png",
+        "source": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_unselected_holo.9.png"
+    },
+    {
+        "merged": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
+        "source": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_unselected_focused_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_selected_focused_holo.9.png",
+        "source": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_selected_focused_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_unselected_focused_holo.9.png",
+        "source": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_unselected_focused_holo.9.png"
+    },
+    {
+        "merged": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_unselected_pressed_holo.9.png",
+        "source": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_unselected_pressed_holo.9.png"
+    },
+    {
+        "merged": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_selected_pressed_holo.9.png",
+        "source": "C:\\Users\\KendallGassner\\AndroidStudioProjects\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_selected_pressed_holo.9.png"
+    },
+    {
+        "merged": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\vpi__tab_selected_focused_holo.9.png",
+        "source": "C:\\0\\Apps\\Motive8\\viewPager\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\vpi__tab_selected_focused_holo.9.png"
     }
 ]

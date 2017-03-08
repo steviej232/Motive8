@@ -66,7 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String TAG = MapsActivity.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    public static final int CIRCLE_RADIUS = 193;
+    public static final int CIRCLE_RADIUS = 240;
     private BottomBar bottomBar;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -164,7 +164,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(gps.canGetLocation()) {
             longitude = gps.getLongitude();
             latitude = gps.getLatitude();
-            //Toast.makeText(getApplicationContext(), "Longitude:" + Double.toString(longitude) + "\nLatitude:" + Double.toString(latitude), Toast.LENGTH_SHORT).show();
         }
         LatLng latLng = new LatLng(latitude,longitude);
         MarkerOptions options = new MarkerOptions()
@@ -182,6 +181,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         placesTask.execute(sbValue.toString());
     }
 
+
     public boolean is_inside_circle(MarkerOptions marker, Circle circle){
         float[] distance = new float[2];
 
@@ -194,9 +194,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return true;
         }
     }
-
-
-
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -255,6 +252,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return  sb;
 
     }
+
+
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;

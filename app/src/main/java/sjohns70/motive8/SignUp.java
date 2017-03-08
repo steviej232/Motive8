@@ -90,7 +90,7 @@ public class SignUp extends AppCompatActivity {
                             myRef.child(mAuth.getCurrentUser().getUid()).child("points_earned").setValue(0);
                             myRef.child(mAuth.getCurrentUser().getUid()).child("count_remainder").setValue(0);
                             myRef.child(mAuth.getCurrentUser().getUid()).child("email").setValue(
-                                    mAuth.getCurrentUser().getEmail().toString());
+                                    mAuth.getCurrentUser().getEmail());
                             Intent home = new Intent(SignUp.this, HomeScreen.class);
                             startActivity(home);
                         }

@@ -12,8 +12,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
 import com.google.firebase.FirebaseApp;
@@ -52,6 +57,8 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
     private TextView leaderboard;
     private TextView share;
     private Typeface bebasFont;
+    private TextView groups;
+    private TextView sign_out;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,10 +66,14 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
         setContentView(R.layout.test);
 
         leaderboard = (TextView)findViewById(R.id.Leaderboard);
+        groups = (TextView)findViewById(R.id.groups);
         share = (TextView)findViewById(R.id.share);
+        sign_out = (TextView)findViewById(R.id.sign_out_button);
         setupLogo();
         share.setTypeface(bebasFont);
         leaderboard.setTypeface(bebasFont);
+        groups.setTypeface(bebasFont);
+        sign_out.setTypeface(bebasFont);
 
         FirebaseApp.initializeApp(getApplicationContext());
         database = FirebaseDatabase.getInstance();
@@ -81,14 +92,34 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
             }
         });
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
         mGoogleApiClient.connect();
 
+        start_leaderboard();
+        start_groups();
+        start_share();
+        logout();
+
+
+
+
+        BottomBarActivity bottomBarActivity = new BottomBarActivity();
+        bottomBarActivity.createBottomBar(this,savedInstanceState,TestActivity.this,3);
+
+    }
+
+    private void start_leaderboard(){
         leaderboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,7 +133,19 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
                 }
             }
         });
+    }
 
+    private void start_groups(){
+        groups.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(TestActivity.this,CreateGroupActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void start_share(){
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,10 +162,27 @@ public class TestActivity extends BaseGameActivity implements GoogleApiClient.Co
                 }
             }
         });
+    }
 
-        BottomBarActivity bottomBarActivity = new BottomBarActivity();
-        bottomBarActivity.createBottomBar(this,savedInstanceState,TestActivity.this,3);
+    private void logout(){
 
+        sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(@NonNull Status status) {
+                                stopService(CircleActivity.timerIntent);
+                                stopService(CircleActivity.locationIntent);
+                                Intent logIn = new Intent(TestActivity.this, Login.class);
+                                startActivity(logIn);
+                            }
+                        });
+            }
+        });
     }
 
 
