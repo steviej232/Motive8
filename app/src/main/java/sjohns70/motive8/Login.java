@@ -24,12 +24,10 @@ import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,15 +37,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import sjohns70.motive8.data.UserData;
 
@@ -67,6 +58,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     private Button login_submit;
     private TextView login_sign_up;
     private TextView login_sign_up_text;
+    private TextView login_forgot_password;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -78,6 +70,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     private int RC_SIGN_IN = 9001;
     public GoogleApiClient mGoogleApiClient;
     private SharedPreferences pref;
+    private String emailAddress = "";
 
     String email;
 
@@ -90,7 +83,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         login_email = (EditText) findViewById(R.id.login_email);
         login_password = (EditText) findViewById(R.id.login_password);
         login_sign_up = (TextView) findViewById(R.id.sign_up);
-        login_sign_up_text =(TextView) findViewById(R.id.sign_up_text);
+        login_sign_up_text = (TextView) findViewById(R.id.sign_up_text);
+        login_forgot_password = (TextView) findViewById(R.id.forgot_password);
         login_submit = (Button) findViewById(R.id.submit_login);
 
 
@@ -122,6 +116,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                 }
             }
         };
+
         initFacebook();
 
         login_submit.setOnClickListener(new View.OnClickListener() {
@@ -131,6 +126,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
             }
         });
+
         login_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +136,39 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         });
 
         enableGoogleSignIn();
+        login_forgot_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Create alert dialog to accept user's email address
+                AlertDialog.Builder passResetBuilder = new AlertDialog.Builder(Login.this);
+                passResetBuilder.setTitle("Enter Email Address:");
+                final EditText input = new EditText(Login.this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                passResetBuilder.setView(input);
+
+                passResetBuilder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        emailAddress = input.getText().toString();
+                        sendResetEmail(emailAddress);
+                    }
+                });
+                passResetBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                passResetBuilder.show();
+            }
+        });
+
+//        if(isLoggedIn()){
+//            Intent home = new Intent(Login.this, HomeScreen.class);
+//            startActivity(home);
+//        }
 
     }
 
@@ -251,6 +280,21 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             }
         });
     }
+    private void sendResetEmail(String emailAddress) {
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuth.sendPasswordResetEmail(emailAddress)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Email sent");
+                            Toast.makeText(Login.this, "Password Reset Email Sent", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
@@ -322,6 +366,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
@@ -372,6 +417,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
         login_email.setTypeface(bebasFont);
         login_password.setTypeface(bebasFont);
         login_submit.setTypeface(bebasFont_bold);
+        login_forgot_password.setTypeface(bebasFont_bold);
         title.setTextSize(100);
     }
 
