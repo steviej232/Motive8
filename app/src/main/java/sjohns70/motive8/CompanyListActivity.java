@@ -63,7 +63,7 @@ public class CompanyListActivity extends Activity{
         getPoints();
 
         adapter = new CustomListAdapter(businesses,
-                Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf"));
+                Typeface.createFromAsset(getAssets(), "fonts/BebasNeue Bold.otf"), context);
 
         list.setAdapter(adapter);
 

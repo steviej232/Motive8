@@ -1,12 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:minHeight="@dimen/box_height"
+    android:background="@drawable/round_rect_white"
+    android:alpha=".8"
+    android:padding="16dp">
 
-    <sjohns70.motive8.SquareImageView
-        android:id="@+id/icon"
+    <android.support.percent.PercentRelativeLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
-    
-    </FrameLayout>
+        android:layout_height="match_parent">
+
+    <TextView
+        android:text= "here1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_business_name"
+        android:textSize="@dimen/title_font_size"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:text="here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_business_phone"
+        android:textSize="@dimen/button_font_size"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/white"/>
+
+    </android.support.percent.PercentRelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_business_description"
+        android:textSize="@dimen/text_font_size"
+        android:textColor="@color/white"/>
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_reward_name"
+        android:textSize="@dimen/text_font_size"
+        android:layout_alignParentLeft="true"
+        android:textColor="@color/white"
+        android:alpha=".7"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_reward_value"
+        android:layout_gravity="right"
+        android:textSize="@dimen/text_font_size"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/white"
+        android:alpha=".7"/>
+
+    </RelativeLayout>
+
+    </LinearLayout>

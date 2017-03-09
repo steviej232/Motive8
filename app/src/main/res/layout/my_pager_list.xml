@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/pager_business_name"
         android:textColor="@color/white"
-        android:textSize="@dimen/button_font_size"
+        android:textSize="@dimen/title_font_size"
         android:textAlignment="center"/>
 
     <TextView
